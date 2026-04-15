@@ -1,0 +1,12 @@
+Board Information Report
+Filename     : D:\OneDrive\DataFlux\Flatcaster\pcb\Flatcaster\Flatcaster-pcb.PcbDoc
+Date         : 2026/4/15
+Time         : 21:12:59
+Time Elapsed : 00:00:00
+
+Routing Information
+    Routing completion, 71.22%
+    Connections, 337
+    Connections routed, 240
+    Connections remaining, 97
+count : 4
