@@ -45,24 +45,6 @@
             <ModeSub name="Debug interface" value="SWD"/>
         </Mode>
     </DEBUG>
-    <I2C1>
-        <Mode>
-            <ModeSub name="I2C" value="I2C"/>
-        </Mode>
-        <Parameters>
-            <ParametersSub name="Timing_Configuration_Value" value="0xC0F03030"/>
-            <ParametersSub name="DualAddressMode" value="DISABLE"/>
-        </Parameters>
-    </I2C1>
-    <I2C2>
-        <Mode>
-            <ModeSub name="I2C" value="I2C"/>
-        </Mode>
-        <Parameters>
-            <ParametersSub name="Timing_Configuration_Value" value="0xC0F03030"/>
-            <ParametersSub name="DualAddressMode" value="DISABLE"/>
-        </Parameters>
-    </I2C2>
     <I2S2>
         <Mode>
             <ModeSub name="Mode" value="Half_Duplex_Master_TX"/>
@@ -107,14 +89,23 @@
             <ModeSub name="Time_Base" value="SysTick"/>
         </Mode>
     </SYSTEM>
-    <USART1>
+    <TMR1>
         <Mode>
-            <ModeSub name="Mode" value="Asynchronous"/>
+            <ModeSub name="Channel2 mode" value="Input_direct_mode"/>
+            <ModeSub name="Channel3 mode" value="Input_direct_mode"/>
+            <ModeSub name="Channel4 mode" value="Input_direct_mode"/>
+            <ModeSub name="Activated" value="TRUE"/>
         </Mode>
-        <Parameters>
-            <ParametersSub name="RealBaudRate" value="115200"/>
-        </Parameters>
-    </USART1>
+    </TMR1>
+    <TMR4>
+        <Mode>
+            <ModeSub name="Channel1 mode" value="Input_direct_mode"/>
+            <ModeSub name="Channel2 mode" value="Input_direct_mode"/>
+            <ModeSub name="Channel3 mode" value="Input_direct_mode"/>
+            <ModeSub name="Channel4 mode" value="Input_direct_mode"/>
+            <ModeSub name="Activated" value="TRUE"/>
+        </Mode>
+    </TMR4>
     <UART8>
         <Mode>
             <ModeSub name="Mode" value="Asynchronous"/>
@@ -128,13 +119,13 @@
         <FLASH_IRQHandler>0;0;0;0;0</FLASH_IRQHandler>
         <CRM_IRQHandler>0;0;0;0;0</CRM_IRQHandler>
         <ADC1_2_3_IRQHandler>0;0;0;0;0</ADC1_2_3_IRQHandler>
-        <I2C1_EVT_IRQHandler>0;0;0;0;0</I2C1_EVT_IRQHandler>
-        <I2C1_ERR_IRQHandler>0;0;0;0;0</I2C1_ERR_IRQHandler>
-        <I2C2_EVT_IRQHandler>0;0;0;0;0</I2C2_EVT_IRQHandler>
-        <I2C2_ERR_IRQHandler>0;0;0;0;0</I2C2_ERR_IRQHandler>
+        <TMR1_BRK_TMR9_IRQHandler>0;0;0;0;0</TMR1_BRK_TMR9_IRQHandler>
+        <TMR1_OVF_TMR10_IRQHandler>0;0;0;0;0</TMR1_OVF_TMR10_IRQHandler>
+        <TMR1_TRG_HALL_TMR11_IRQHandler>0;0;0;0;0</TMR1_TRG_HALL_TMR11_IRQHandler>
+        <TMR1_CH_IRQHandler>0;0;0;0;0</TMR1_CH_IRQHandler>
+        <TMR4_GLOBAL_IRQHandler>0;0;0;0;0</TMR4_GLOBAL_IRQHandler>
         <SPI1_IRQHandler>0;0;0;0;0</SPI1_IRQHandler>
         <SPI2_I2S2EXT_IRQHandler>0;0;0;0;0</SPI2_I2S2EXT_IRQHandler>
-        <USART1_IRQHandler>0;0;0;0;0</USART1_IRQHandler>
         <SPI3_I2S3EXT_IRQHandler>0;0;0;0;0</SPI3_I2S3EXT_IRQHandler>
         <TMR6_DAC_GLOBAL_IRQHandler>0;0;0;0;0</TMR6_DAC_GLOBAL_IRQHandler>
         <DVP_IRQHandler>0;0;0;0;0</DVP_IRQHandler>
@@ -144,13 +135,19 @@
     </NVIC>
     <GPIO>
         <Signal SignalName="GPIO_Output" PinName="PC13">
-            <Parameters name="Label" value="LED_R"/>
+            <Parameters name="Label" value="LED_B"/>
         </Signal>
         <Signal SignalName="GPIO_Input" PinName="PC14/LEXT_IN">
             <Parameters name="Label" value="KEY_1"/>
         </Signal>
         <Signal SignalName="GPIO_Input" PinName="PC15/LEXT_OUT">
             <Parameters name="Label" value="KEY_2"/>
+        </Signal>
+        <Signal SignalName="GPIO_Output" PinName="PC0">
+            <Parameters name="Label" value="LED_G"/>
+        </Signal>
+        <Signal SignalName="GPIO_Output" PinName="PC1">
+            <Parameters name="Label" value="LED_R"/>
         </Signal>
         <Signal SignalName="ADC1_IN0" PinName="PA0">
             <Parameters name="Label" value="ADC_BATT"/>
@@ -182,26 +179,35 @@
         <Signal SignalName="I2S2_CK" PinName="PB13">
             <Parameters name="Label" value="I2S_CK"/>
         </Signal>
+        <Signal SignalName="GPIO_Output" PinName="PB14">
+            <Parameters name="Label" value="DRV_C6"/>
+        </Signal>
         <Signal SignalName="I2S2_SD" PinName="PB15">
             <Parameters name="Label" value="I2S_SD"/>
         </Signal>
-        <Signal SignalName="I2C1_SCL" PinName="PC6">
-            <Parameters name="Label" value="I2C1_SCL"/>
+        <Signal SignalName="GPIO_Output" PinName="PC6">
+            <Parameters name="Label" value="DRV_C5"/>
         </Signal>
-        <Signal SignalName="I2C1_SDA" PinName="PC7">
-            <Parameters name="Label" value="I2C1_SDA"/>
+        <Signal SignalName="GPIO_Output" PinName="PC7">
+            <Parameters name="Label" value="DRV_C4"/>
         </Signal>
-        <Signal SignalName="USART1_TX" PinName="PA9">
-            <Parameters name="Label" value="USART1_TX"/>
+        <Signal SignalName="GPIO_Output" PinName="PC8">
+            <Parameters name="Label" value="DRV_C3"/>
         </Signal>
-        <Signal SignalName="USART1_RX" PinName="PA10">
-            <Parameters name="Label" value="USART1_RX"/>
+        <Signal SignalName="GPIO_Output" PinName="PC9">
+            <Parameters name="Label" value="DRV_C2"/>
         </Signal>
-        <Signal SignalName="I2C2_SCL" PinName="PA11">
-            <Parameters name="Label" value="I2C2_SCL"/>
+        <Signal SignalName="GPIO_Output" PinName="PA8">
+            <Parameters name="Label" value="DRV_C1"/>
         </Signal>
-        <Signal SignalName="I2C2_SDA" PinName="PA12">
-            <Parameters name="Label" value="I2C2_SDA"/>
+        <Signal SignalName="TMR1_CH2" PinName="PA9">
+            <Parameters name="Label" value="FRET_0"/>
+        </Signal>
+        <Signal SignalName="TMR1_CH3" PinName="PA10">
+            <Parameters name="Label" value="FRET_1"/>
+        </Signal>
+        <Signal SignalName="TMR1_CH4" PinName="PA11">
+            <Parameters name="Label" value="FRET_2"/>
         </Signal>
         <Signal SignalName="DEBUG_JTMS_SWDIO" PinName="PA13">
             <Parameters name="Label" value="SWDIO"/>
@@ -209,11 +215,17 @@
         <Signal SignalName="DEBUG_JTCK_SWCLK" PinName="PA14">
             <Parameters name="Label" value="SWCLK"/>
         </Signal>
-        <Signal SignalName="GPIO_Output" PinName="PB8">
-            <Parameters name="Label" value="LED_B"/>
+        <Signal SignalName="TMR4_CH1" PinName="PB6">
+            <Parameters name="Label" value="FRET_3"/>
         </Signal>
-        <Signal SignalName="GPIO_Output" PinName="PB9">
-            <Parameters name="Label" value="LED_G"/>
+        <Signal SignalName="TMR4_CH2" PinName="PB7">
+            <Parameters name="Label" value="FRET_4"/>
+        </Signal>
+        <Signal SignalName="TMR4_CH3" PinName="PB8">
+            <Parameters name="Label" value="FRET_5"/>
+        </Signal>
+        <Signal SignalName="TMR4_CH4" PinName="PB9">
+            <Parameters name="Label" value="FRET_6"/>
         </Signal>
     </GPIO>
     <ClockConfiguration>
@@ -245,6 +257,10 @@
         <PinSub pinname="PC15/LEXT_OUT" signalname="GPIO_Input" signaltype="3"/>
         <PinSub pinname="PH0/HEXT_IN" signalname="CRM_HEXT_IN" signaltype="2"/>
         <PinSub pinname="PH1/HEXT_OUT" signalname="CRM_HEXT_OUT" signaltype="2"/>
+        <PinSub pinname="PC0" signalname="GPIO_Output" signaltype="3"/>
+        <PinSub pinname="PC1" signalname="GPIO_Output" signaltype="3"/>
+        <PinSub pinname="PC2" signalname="UART8_TX" signaltype="2"/>
+        <PinSub pinname="PC3" signalname="UART8_RX" signaltype="2"/>
         <PinSub pinname="PA0" signalname="ADC1_IN0" signaltype="2"/>
         <PinSub pinname="PA3" signalname="ADC1_IN3" signaltype="2"/>
         <PinSub pinname="PA4" signalname="DAC_OUT1" signaltype="2"/>
@@ -257,15 +273,16 @@
         <PinSub pinname="PB10" signalname="QSPI1_CS" signaltype="2"/>
         <PinSub pinname="PB12" signalname="I2S2_WS" signaltype="2"/>
         <PinSub pinname="PB13" signalname="I2S2_CK" signaltype="2"/>
+        <PinSub pinname="PB14" signalname="GPIO_Output" signaltype="3"/>
         <PinSub pinname="PB15" signalname="I2S2_SD" signaltype="2"/>
-        <PinSub pinname="PC6" signalname="I2C1_SCL" signaltype="2"/>
-        <PinSub pinname="PC7" signalname="I2C1_SDA" signaltype="2"/>
-        <PinSub pinname="PC8" signalname="UART8_TX" signaltype="2"/>
-        <PinSub pinname="PC9" signalname="UART8_RX" signaltype="2"/>
-        <PinSub pinname="PA9" signalname="USART1_TX" signaltype="2"/>
-        <PinSub pinname="PA10" signalname="USART1_RX" signaltype="2"/>
-        <PinSub pinname="PA11" signalname="I2C2_SCL" signaltype="2"/>
-        <PinSub pinname="PA12" signalname="I2C2_SDA" signaltype="2"/>
+        <PinSub pinname="PC6" signalname="GPIO_Output" signaltype="3"/>
+        <PinSub pinname="PC7" signalname="GPIO_Output" signaltype="3"/>
+        <PinSub pinname="PC8" signalname="GPIO_Output" signaltype="3"/>
+        <PinSub pinname="PC9" signalname="GPIO_Output" signaltype="3"/>
+        <PinSub pinname="PA8" signalname="GPIO_Output" signaltype="3"/>
+        <PinSub pinname="PA9" signalname="TMR1_CH2" signaltype="2"/>
+        <PinSub pinname="PA10" signalname="TMR1_CH3" signaltype="2"/>
+        <PinSub pinname="PA11" signalname="TMR1_CH4" signaltype="2"/>
         <PinSub pinname="PA13" signalname="DEBUG_JTMS_SWDIO" signaltype="2"/>
         <PinSub pinname="PA14" signalname="DEBUG_JTCK_SWCLK" signaltype="2"/>
         <PinSub pinname="PC10" signalname="SPI3_SCK" signaltype="2"/>
@@ -274,8 +291,10 @@
         <PinSub pinname="PB3" signalname="SPI1_SCK" signaltype="2"/>
         <PinSub pinname="PB4" signalname="SPI1_MISO" signaltype="2"/>
         <PinSub pinname="PB5" signalname="SPI1_MOSI" signaltype="2"/>
-        <PinSub pinname="PB8" signalname="GPIO_Output" signaltype="3"/>
-        <PinSub pinname="PB9" signalname="GPIO_Output" signaltype="3"/>
+        <PinSub pinname="PB6" signalname="TMR4_CH1" signaltype="2"/>
+        <PinSub pinname="PB7" signalname="TMR4_CH2" signaltype="2"/>
+        <PinSub pinname="PB8" signalname="TMR4_CH3" signaltype="2"/>
+        <PinSub pinname="PB9" signalname="TMR4_CH4" signaltype="2"/>
     </PINInfo>
     <ProjectInfomation>
         <ProjectName>Flatcaster</ProjectName>
