@@ -16,12 +16,22 @@
             <ParametersSub name="Clock" value="72000000"/>
         </Parameters>
     </ADC-Common>
-    <ADC1>
+    <ADC3>
         <Mode>
             <ModeSub name="IN0" value="TRUE"/>
             <ModeSub name="IN3" value="TRUE"/>
         </Mode>
-    </ADC1>
+        <Parameters>
+            <ParametersSub name="EnableOrdinaryConversion" value="ENABLE"/>
+            <ParametersSub name="NbrOfOrdinarySequence" value="2"/>
+            <ParametersSub name="Channel_OrdinarySequence_1" value="ADC_CHANNEL_0"/>
+            <ParametersSub name="SamplingTime_OrdinarySequence_1" value="ADC_SAMPLETIME_12_5"/>
+            <ParametersSub name="Channel_OrdinarySequence_2" value="ADC_CHANNEL_3"/>
+            <ParametersSub name="OrdinaryOversamplingEnable" value="TRUE"/>
+            <ParametersSub name="OversamplingShiftSelect" value="ADC_OVERSAMPLE_SHIFT_3"/>
+            <ParametersSub name="OversamplingRatioSelect" value="ADC_OVERSAMPLE_RATIO_8"/>
+        </Parameters>
+    </ADC3>
     <CRM>
         <Mode>
             <ModeSub name="HEXT" value="HEXT-External-Oscillator"/>
@@ -50,10 +60,12 @@
             <ModeSub name="Mode" value="Half_Duplex_Master_TX"/>
         </Mode>
         <Parameters>
-            <ParametersSub name="DataFormat" value="I2S_DATA_16BIT_CHANNEL_16BIT"/>
-            <ParametersSub name="RealAudioFreq" value="8000"/>
-            <ParametersSub name="ErrorAudioFreq" value="0.00"/>
-            <ParametersSub name="I2S_DIV" value="562"/>
+            <ParametersSub name="DataFormat" value="I2S_DATA_32BIT_CHANNEL_32BIT"/>
+            <ParametersSub name="AudioFreq" value="I2S_AUDIO_FREQUENCY_44_1K"/>
+            <ParametersSub name="RealAudioFreq" value="44117"/>
+            <ParametersSub name="ErrorAudioFreq" value="0.04"/>
+            <ParametersSub name="I2S_DIV" value="51"/>
+            <ParametersSub name="I2S_ODD" value="0"/>
         </Parameters>
     </I2S2>
     <QSPI1>
@@ -61,7 +73,8 @@
             <ModeSub name="QSPI_State" value="TRUE"/>
         </Mode>
         <Parameters>
-            <ParametersSub name="ClockFrequency" value="36000000"/>
+            <ParametersSub name="ClkDivision" value="QSPI_CLK_DIV_6"/>
+            <ParametersSub name="ClockFrequency" value="48000000"/>
         </Parameters>
     </QSPI1>
     <SPI1>
@@ -96,6 +109,11 @@
             <ModeSub name="Channel4 mode" value="Input_direct_mode"/>
             <ModeSub name="Activated" value="TRUE"/>
         </Mode>
+        <Parameters>
+            <ParametersSub name="DividerValue" value="1"/>
+            <ParametersSub name="Synchronize_With_Subtimer" value="TRUE"/>
+            <ParametersSub name="Primary_TMR_output" value="TMR_PRIMARY_SEL_ENABLE"/>
+        </Parameters>
     </TMR1>
     <TMR4>
         <Mode>
@@ -103,24 +121,48 @@
             <ModeSub name="Channel2 mode" value="Input_direct_mode"/>
             <ModeSub name="Channel3 mode" value="Input_direct_mode"/>
             <ModeSub name="Channel4 mode" value="Input_direct_mode"/>
+            <ModeSub name="Subordinate mode" value="Trigger Mode"/>
+            <ModeSub name="Sub-mode input selection" value="SubModeInput_IS0"/>
             <ModeSub name="Activated" value="TRUE"/>
         </Mode>
+        <Parameters>
+            <ParametersSub name="DividerValue" value="1"/>
+        </Parameters>
     </TMR4>
+    <TMR9>
+        <Mode>
+            <ModeSub name="Activated" value="TRUE"/>
+        </Mode>
+        <Parameters>
+            <ParametersSub name="DividerValue" value="9"/>
+            <ParametersSub name="Period" value="287"/>
+        </Parameters>
+    </TMR9>
     <UART8>
         <Mode>
             <ModeSub name="Mode" value="Asynchronous"/>
         </Mode>
         <Parameters>
-            <ParametersSub name="RealBaudRate" value="115200"/>
+            <ParametersSub name="BaudRate" value="921600"/>
+            <ParametersSub name="RealBaudRate" value="923077"/>
         </Parameters>
     </UART8>
+    <DMA>
+        <SPI2_TX>
+            <ParametersSub name="Instance" value="DMA1_Channel1"/>
+            <ParametersSub name="EventEnable" value="TRUE"/>
+            <ParametersSub name="SyncRequestCount" value="1"/>
+            <ParametersSub name="RequestCount" value="1"/>
+        </SPI2_TX>
+    </DMA>
     <NVIC>
-        <SysTick_Handler>1;15;0;0;0</SysTick_Handler>
+        <PriorityGroup>NVIC_PRIORITY_GROUP_2</PriorityGroup>
+        <SysTick_Handler>1;0;0;0;0</SysTick_Handler>
         <FLASH_IRQHandler>0;0;0;0;0</FLASH_IRQHandler>
         <CRM_IRQHandler>0;0;0;0;0</CRM_IRQHandler>
         <ADC1_2_3_IRQHandler>0;0;0;0;0</ADC1_2_3_IRQHandler>
         <TMR1_BRK_TMR9_IRQHandler>0;0;0;0;0</TMR1_BRK_TMR9_IRQHandler>
-        <TMR1_OVF_TMR10_IRQHandler>0;0;0;0;0</TMR1_OVF_TMR10_IRQHandler>
+        <TMR1_OVF_TMR10_IRQHandler>1;0;0;0;0</TMR1_OVF_TMR10_IRQHandler>
         <TMR1_TRG_HALL_TMR11_IRQHandler>0;0;0;0;0</TMR1_TRG_HALL_TMR11_IRQHandler>
         <TMR1_CH_IRQHandler>0;0;0;0;0</TMR1_CH_IRQHandler>
         <TMR4_GLOBAL_IRQHandler>0;0;0;0;0</TMR4_GLOBAL_IRQHandler>
@@ -128,10 +170,12 @@
         <SPI2_I2S2EXT_IRQHandler>0;0;0;0;0</SPI2_I2S2EXT_IRQHandler>
         <SPI3_I2S3EXT_IRQHandler>0;0;0;0;0</SPI3_I2S3EXT_IRQHandler>
         <TMR6_DAC_GLOBAL_IRQHandler>0;0;0;0;0</TMR6_DAC_GLOBAL_IRQHandler>
+        <DMA1_Channel1_IRQHandler>1;1;0;0;0</DMA1_Channel1_IRQHandler>
         <DVP_IRQHandler>0;0;0;0;0</DVP_IRQHandler>
         <FPU_IRQHandler>0;0;0;0;0</FPU_IRQHandler>
         <UART8_IRQHandler>0;0;0;0;0</UART8_IRQHandler>
         <QSPI1_IRQHandler>0;0;0;0;0</QSPI1_IRQHandler>
+        <DMAMUX_IRQHandler>0;0;0;0;0</DMAMUX_IRQHandler>
     </NVIC>
     <GPIO>
         <Signal SignalName="GPIO_Output" PinName="PC13">
@@ -148,12 +192,6 @@
         </Signal>
         <Signal SignalName="GPIO_Output" PinName="PC1">
             <Parameters name="Label" value="LED_R"/>
-        </Signal>
-        <Signal SignalName="ADC1_IN0" PinName="PA0">
-            <Parameters name="Label" value="ADC_BATT"/>
-        </Signal>
-        <Signal SignalName="ADC1_IN3" PinName="PA3">
-            <Parameters name="Label" value="ADC_VOL"/>
         </Signal>
         <Signal SignalName="QSPI1_IO0" PinName="PA6">
             <Parameters name="Label" value="QSPI_IO0"/>
@@ -232,7 +270,7 @@
         <rtcsel>0</rtcsel>
         <rtcdiv>2</rtcdiv>
         <hext>8.000000</hext>
-        <pllrcs>1</pllrcs>
+        <pllrcs>0</pllrcs>
         <pllms>1</pllms>
         <pllns>144</pllns>
         <pllfr>4</pllfr>
@@ -261,8 +299,8 @@
         <PinSub pinname="PC1" signalname="GPIO_Output" signaltype="3"/>
         <PinSub pinname="PC2" signalname="UART8_TX" signaltype="2"/>
         <PinSub pinname="PC3" signalname="UART8_RX" signaltype="2"/>
-        <PinSub pinname="PA0" signalname="ADC1_IN0" signaltype="2"/>
-        <PinSub pinname="PA3" signalname="ADC1_IN3" signaltype="2"/>
+        <PinSub pinname="PA0" signalname="ADC3_IN0" signaltype="2"/>
+        <PinSub pinname="PA3" signalname="ADC3_IN3" signaltype="2"/>
         <PinSub pinname="PA4" signalname="DAC_OUT1" signaltype="2"/>
         <PinSub pinname="PA5" signalname="DAC_OUT2" signaltype="2"/>
         <PinSub pinname="PA6" signalname="QSPI1_IO0" signaltype="2"/>
@@ -304,10 +342,10 @@
         <KeepUserCode>true</KeepUserCode>
         <NotUsedPinAnalog>false</NotUsedPinAnalog>
         <CodeSplitIP>true</CodeSplitIP>
-        <AddNecessaryFileFlag>true</AddNecessaryFileFlag>
+        <AddNecessaryFileFlag>false</AddNecessaryFileFlag>
         <MinHeapSize>0x200</MinHeapSize>
         <MinStackSize>0x400</MinStackSize>
         <UseFirmware>true</UseFirmware>
-        <PackageVersion></PackageVersion>
+        <PackageVersion>V2.1.9</PackageVersion>
     </ProjectInfomation>
 </Root>

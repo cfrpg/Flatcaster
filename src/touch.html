@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>6x8 Matrix - Final Fix</title>
+    <style>
+        :root { --bg: #121212; --card: #1e1e1e; --accent: #00e676; --text: #eee; }
+        body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .layout { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; }
+        
+        /* 矩阵容器：强制固定尺寸确保可见 */
+        #matrix { 
+            display: grid; 
+            grid-template-columns: repeat(8, 1fr); 
+            gap: 4px; 
+            background: #000; 
+            padding: 8px; 
+            border-radius: 8px; 
+            width: 600px; 
+        }
+        .cell { 
+            height: 70px; 
+            background: #222; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            border: 1px solid #333; 
+            transition: background 0.05s; 
+        }
+        .v { font-size: 18px; font-weight: bold; color: #fff; }
+        .sub { font-size: 10px; opacity: 0.5; }
+        .touched { border: 2px solid #ff1744; box-shadow: 0 0 10px #ff1744; }
+
+        .panel { flex: 1; background: var(--card); padding: 20px; border-radius: 12px; }
+        .control-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
+        input[type="range"] { width: 100%; accent-color: var(--accent); }
+        button { padding: 12px; border: none; border-radius: 6px; background: var(--accent); cursor: pointer; font-weight: bold; }
+        #debug-log { 
+            margin-top: 15px; background: #000; color: #00ff00; 
+            padding: 10px; font-family: monospace; font-size: 12px; 
+            border-radius: 4px; min-height: 40px; word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <div id="matrix">
+        </div>
+
+    <div class="panel">
+        <button id="btn-connect" style="width:100%; margin-bottom:15px;">STEP 1: 连接串口 (921600)</button>
+        
+        <div class="control-group">
+            <label>模式切换</label>
+            <button id="btn-mode" style="background:#444; color:#fff;">当前模式: 差值 (ΔTc)</button>
+        </div>
+
+        <div class="control-group">
+            <label>基准校准</label>
+            <button id="btn-ref" style="background:#555; color:#fff;">设为参考值 (Zero)</button>
+        </div>
+
+        <div class="control-group">
+            <label>按下阈值: <span id="label-touch">150</span></label>
+            <input type="range" id="input-touch" min="10" max="2000" value="150">
+        </div>
+
+        <div class="control-group" id="group-delta">
+            <label>差值色阶最大值: <span id="label-dmax">800</span></label>
+            <input type="range" id="input-dmax" min="100" max="4000" value="800">
+        </div>
+
+        <div class="control-group" id="group-raw" style="display:none">
+            <label>原始值范围 (Min-Max):</label>
+            <input type="range" id="input-rmin" min="0" max="4095" value="1000">
+            <input type="range" id="input-rmax" min="0" max="4095" value="3000">
+        </div>
+
+        <div id="debug-log">等待数据...</div>
+        <div style="margin-top:10px; font-size:12px; opacity:0.6;">
+            已接收帧数: <span id="frame-count">0</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ROWS = 6, COLS = 8, TOTAL = ROWS * COLS;
+    let tc_ref = new Array(TOTAL).fill(0);
+    let current_tc = new Array(TOTAL).fill(0);
+    let isDeltaMode = true;
+    let frameCount = 0;
+
+    // 1. 初始化 DOM 引用
+    const matrixEl = document.getElementById('matrix');
+    const debugEl = document.getElementById('debug-log');
+    const cells = [];
+
+    function initMatrix() {
+        matrixEl.innerHTML = ''; // 清空
+        for (let i = 0; i < TOTAL; i++) {
+            const div = document.createElement('div');
+            div.className = 'cell';
+            div.innerHTML = `<span class="v">0</span><span class="sub">R:0</span>`;
+            matrixEl.appendChild(div);
+            cells.push({
+                el: div,
+                v: div.querySelector('.v'),
+                sub: div.querySelector('.sub')
+            });
+        }
+    }
+    initMatrix();
+
+    // 2. 串口读取逻辑
+    document.getElementById('btn-connect').onclick = async () => {
+        try {
+            const port = await navigator.serial.requestPort();
+            await port.open({ baudRate: 921600 });
+            document.getElementById('btn-connect').innerText = "已连接 ✅";
+            document.getElementById('btn-connect').disabled = true;
+            
+            const decoder = new TextDecoder();
+            let buffer = '';
+            const reader = port.readable.getReader();
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                
+                buffer += decoder.decode(value, { stream: true });
+                let lines = buffer.split('\n');
+                buffer = lines.pop();
+
+                for (let line of lines) {
+                    if (line.includes("DATA:")) {
+                        parseData(line);
+                    }
+                }
+            }
+        } catch (e) {
+            debugEl.innerText = "错误: " + e.message;
+        }
+    };
+
+    // 3. 解析并强制刷新 UI
+    function parseData(line) {
+        // 提取 DATA: 之后的所有数字
+        const content = line.split("DATA:")[1];
+        if (!content) return;
+
+        const nums = content.match(/\d+/g);
+        if (!nums || nums.length < TOTAL) {
+            debugEl.innerText = `数据长度不足: ${nums ? nums.length : 0}`;
+            return;
+        }
+
+        // 更新计数器
+        frameCount++;
+        document.getElementById('frame-count').innerText = frameCount;
+        debugEl.innerText = "正在接收: " + nums.slice(0, 5).join(',') + "...";
+
+        // 获取当前滑块参数
+        const tThresh = parseInt(document.getElementById('input-touch').value);
+        const dMax = parseInt(document.getElementById('input-dmax').value);
+        const rMin = parseInt(document.getElementById('input-rmin').value);
+        const rMax = parseInt(document.getElementById('input-rmax').value);
+
+        // 核心更新循环
+        for (let i = 0; i < TOTAL; i++) {
+            const val = parseInt(nums[i]);
+            current_tc[i] = val;
+            const delta = val - tc_ref[i];
+            const cell = cells[i];
+
+            let ratio = 0;
+            if (isDeltaMode) {
+                cell.v.innerText = delta;
+                cell.sub.innerText = `R:${val}`;
+                ratio = Math.max(0, Math.min(1, delta / dMax));
+            } else {
+                cell.v.innerText = val;
+                cell.sub.innerText = `Δ:${delta}`;
+                ratio = Math.max(0, Math.min(1, (val - rMin) / (rMax - rMin)));
+            }
+
+            // 直接操作 style，避免 CSS 变量未定义的风险
+            const hue = 240 - (ratio * 240); // 240(蓝) -> 0(红)
+            const light = 20 + (ratio * 30);
+            cell.el.style.backgroundColor = `hsl(${hue}, 80%, ${light}%)`;
+
+            // 高亮逻辑
+            if (delta > tThresh) {
+                cell.el.classList.add('touched');
+            } else {
+                cell.el.classList.remove('touched');
+            }
+        }
+    }
+
+    // 4. 控制面板交互
+    document.getElementById('btn-mode').onclick = (e) => {
+        isDeltaMode = !isDeltaMode;
+        e.target.innerText = isDeltaMode ? "当前模式: 差值 (ΔTc)" : "当前模式: 原始值 (Tc)";
+        document.getElementById('group-delta').style.display = isDeltaMode ? 'flex' : 'none';
+        document.getElementById('group-raw').style.display = isDeltaMode ? 'none' : 'flex';
+    };
+
+    document.getElementById('btn-ref').onclick = () => {
+        tc_ref = [...current_tc];
+        debugEl.innerText = "已更新基准值";
+    };
+
+    // 滑块标签联动
+    const sliders = ['input-touch', 'input-dmax'];
+    sliders.forEach(id => {
+        const s = document.getElementById(id);
+        const l = document.getElementById(id.replace('input', 'label'));
+        s.oninput = () => l.innerText = s.value;
+    });
+</script>
+</body>
+</html>
