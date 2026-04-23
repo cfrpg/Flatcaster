@@ -35,42 +35,7 @@ I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
-F (..\src\at32f435_437_wk_config.c)(0x69E88C86)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/at32f435_437_wk_config.o -MMD)
-I (..\inc\at32f435_437_wk_config.h)(0x69E832A0)
-I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\device_support\system_at32f435_437.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_def.h)(0x6687E765)
-I (..\inc\at32f435_437_conf.h)(0x69E392A7)
-I (..\..\libraries\drivers\inc\at32f435_437_crm.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_tmr.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_ertc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_gpio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_i2c.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usart.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_pwc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_can.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_adc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_spi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_debug.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_flash.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_crc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wwdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_exint.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_sdio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_xmc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_acc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_misc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_edma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_qspi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
-F (..\src\main.c)(0x69E8E064)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/main.o -MMD)
+F (..\src\main.c)(0x69E99183)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/main.o -MMD)
 I (..\src\sys\sys.h)(0x69E77723)
 I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
 I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
@@ -116,8 +81,9 @@ I (..\src\module\pptlink.h)(0x69E82F73)
 I (..\src\drivers\max98357a.h)(0x69E8719A)
 I (..\src\tools\signalGen.h)(0x69E82D44)
 I (..\src\module\ks_engine.h)(0x69E87E06)
-I (..\src\drivers\touch.h)(0x69E8DB9D)
+I (..\src\drivers\touch.h)(0x69E98DFA)
 I (..\src\module\midi.h)(0x69E8D99A)
+I (..\src\drivers\adc.h)(0x69E98AE9)
 F (..\src\wk_adc.c)(0x69E392A7)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/wk_adc.o -MMD)
 I (..\inc\wk_adc.h)(0x69E392A7)
 I (..\inc\at32f435_437_wk_config.h)(0x69E832A0)
@@ -190,224 +156,8 @@ I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
-F (..\src\wk_i2s.c)(0x69E83323)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/wk_i2s.o -MMD)
-I (..\inc\wk_i2s.h)(0x69E392A7)
-I (..\inc\at32f435_437_wk_config.h)(0x69E832A0)
-I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\device_support\system_at32f435_437.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_def.h)(0x6687E765)
-I (..\inc\at32f435_437_conf.h)(0x69E392A7)
-I (..\..\libraries\drivers\inc\at32f435_437_crm.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_tmr.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_ertc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_gpio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_i2c.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usart.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_pwc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_can.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_adc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_spi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_debug.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_flash.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_crc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wwdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_exint.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_sdio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_xmc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_acc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_misc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_edma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_qspi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
 F (..\src\wk_qspi.c)(0x69E392A7)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/wk_qspi.o -MMD)
 I (..\inc\wk_qspi.h)(0x69E392A7)
-I (..\inc\at32f435_437_wk_config.h)(0x69E832A0)
-I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\device_support\system_at32f435_437.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_def.h)(0x6687E765)
-I (..\inc\at32f435_437_conf.h)(0x69E392A7)
-I (..\..\libraries\drivers\inc\at32f435_437_crm.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_tmr.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_ertc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_gpio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_i2c.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usart.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_pwc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_can.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_adc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_spi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_debug.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_flash.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_crc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wwdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_exint.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_sdio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_xmc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_acc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_misc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_edma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_qspi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
-F (..\src\wk_spi.c)(0x69E392A7)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/wk_spi.o -MMD)
-I (..\inc\wk_spi.h)(0x69E392A7)
-I (..\inc\at32f435_437_wk_config.h)(0x69E832A0)
-I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\device_support\system_at32f435_437.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_def.h)(0x6687E765)
-I (..\inc\at32f435_437_conf.h)(0x69E392A7)
-I (..\..\libraries\drivers\inc\at32f435_437_crm.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_tmr.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_ertc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_gpio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_i2c.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usart.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_pwc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_can.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_adc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_spi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_debug.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_flash.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_crc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wwdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_exint.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_sdio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_xmc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_acc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_misc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_edma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_qspi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
-F (..\src\wk_tmr.c)(0x69E392A7)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/wk_tmr.o -MMD)
-I (..\inc\wk_tmr.h)(0x69E392A7)
-I (..\inc\at32f435_437_wk_config.h)(0x69E832A0)
-I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\device_support\system_at32f435_437.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_def.h)(0x6687E765)
-I (..\inc\at32f435_437_conf.h)(0x69E392A7)
-I (..\..\libraries\drivers\inc\at32f435_437_crm.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_tmr.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_ertc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_gpio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_i2c.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usart.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_pwc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_can.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_adc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_spi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_debug.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_flash.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_crc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wwdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_exint.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_sdio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_xmc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_acc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_misc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_edma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_qspi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
-F (..\src\wk_usart.c)(0x69E392A7)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/wk_usart.o -MMD)
-I (..\inc\wk_usart.h)(0x69E392A7)
-I (..\inc\at32f435_437_wk_config.h)(0x69E832A0)
-I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\device_support\system_at32f435_437.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_def.h)(0x6687E765)
-I (..\inc\at32f435_437_conf.h)(0x69E392A7)
-I (..\..\libraries\drivers\inc\at32f435_437_crm.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_tmr.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_ertc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_gpio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_i2c.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usart.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_pwc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_can.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_adc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_spi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_debug.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_flash.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_crc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wwdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_exint.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_sdio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_xmc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_acc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_misc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_edma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_qspi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
-F (..\src\wk_gpio.c)(0x69E88008)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/wk_gpio.o -MMD)
-I (..\inc\wk_gpio.h)(0x69E392A7)
-I (..\inc\at32f435_437_wk_config.h)(0x69E832A0)
-I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
-I (..\..\libraries\cmsis\cm4\device_support\system_at32f435_437.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_def.h)(0x6687E765)
-I (..\inc\at32f435_437_conf.h)(0x69E392A7)
-I (..\..\libraries\drivers\inc\at32f435_437_crm.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_tmr.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_ertc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_gpio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_i2c.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usart.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_pwc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_can.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_adc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_spi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_debug.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_flash.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_crc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wwdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_wdt.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_exint.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_sdio.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_xmc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_acc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_misc.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_edma.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_qspi.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
-I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
-F (..\src\wk_dma.c)(0x69E392A7)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/wk_dma.o -MMD)
-I (..\inc\wk_dma.h)(0x69E392A7)
 I (..\inc\at32f435_437_wk_config.h)(0x69E832A0)
 I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
 I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
@@ -1688,8 +1438,8 @@ I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
 F (..\src\drivers\max98357a.h)(0x69E8719A)()
-F (..\src\drivers\touch.c)(0x69E8E047)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/touch.o -MMD)
-I (..\src\drivers\touch.h)(0x69E8DB9D)
+F (..\src\drivers\touch.c)(0x69E9927B)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/touch.o -MMD)
+I (..\src\drivers\touch.h)(0x69E98DFA)
 I (..\src\sys\sys.h)(0x69E77723)
 I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
 I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
@@ -1724,7 +1474,44 @@ I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
 I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
-F (..\src\drivers\touch.h)(0x69E8DB9D)()
+F (..\src\drivers\touch.h)(0x69E98DFA)()
+F (..\src\drivers\adc.c)(0x69E98EE7)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/adc.o -MMD)
+I (..\src\drivers\adc.h)(0x69E98AE9)
+I (..\src\sys\sys.h)(0x69E77723)
+I (..\..\libraries\cmsis\cm4\device_support\at32f435_437.h)(0x6687E765)
+I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x6687E765)
+I (..\..\libraries\cmsis\cm4\device_support\system_at32f435_437.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_def.h)(0x6687E765)
+I (..\inc\at32f435_437_conf.h)(0x69E392A7)
+I (..\..\libraries\drivers\inc\at32f435_437_crm.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_tmr.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_ertc.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_gpio.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_i2c.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_usart.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_pwc.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_can.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_adc.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_dac.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_spi.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_dma.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_debug.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_flash.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_crc.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_wwdt.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_wdt.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_exint.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_sdio.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_xmc.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_acc.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_misc.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_edma.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_qspi.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_scfg.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_emac.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_dvp.h)(0x6687E765)
+I (..\..\libraries\drivers\inc\at32f435_437_usb.h)(0x6687E765)
+F (..\src\drivers\adc.h)(0x69E98AE9)()
 F (..\src\module\parameter.c)(0x69E82D44)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../libraries/drivers/inc -I ../../libraries/cmsis/cm4/core_support -I ../../libraries/cmsis/cm4/device_support -I ../inc -I ../src/sys -I ../src/drivers -I ../src/module -I ../src/tools-IC:/Users/CFRPG/AppData/Local/Arm/Packs/ArteryTek/AT32F435_437_DFP/2.2.3/Device/Include-D__UVISION_VERSION="542" -DAT32F435RMT7 -DAT32F435RMT7 -DUSE_STDPERIPH_DRIVER-o ./objects/parameter.o -MMD)
 I (..\src\module\parameter.h)(0x69E82ED1)
 I (..\src\sys\sys.h)(0x69E77723)

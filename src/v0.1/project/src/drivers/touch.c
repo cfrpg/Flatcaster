@@ -232,7 +232,7 @@ void TouchInit(void)
 	
 	touch_gpio_init();
 	touch_timer_init();
-	touch.lpf=100;
+	touch.lpf=50;
 	touch.thd=200;
 	
 }
@@ -261,23 +261,26 @@ void TouchGetKey(void)
 			if(touch.rawData[i][j]-touch.refData[i][j]>touch.thd)
 				touch.trig[i][j]=1;
 			else
+			{
 				touch.trig[i][j]=0;
+				// auto cali
+				touch.refData[i][j]=touch.refData[i][j]*touch.lpf+touch.rawData[i][j];
+				touch.refData[i][j]/=(1+touch.lpf);
+				
+			}
 		}
 	}
 	
 	for(u8 i=0;i<6;i++)
 	{
 		touch.stringFert[i]=0;
-		touch.stringLastState[i]=touch.stringState[i];
+		touch.stringState[i]<<=1;
 		if(touch.trig[i][0])
 		{			
-			touch.stringState[i]=1;
+			touch.stringState[i]|=0x01;
 			
 		}
-		else
-		{
-			touch.stringState[i]=0;
-		}
+		
 		for(u8 j=1;j<7;j++)
 		{
 			if(touch.trig[i][j])

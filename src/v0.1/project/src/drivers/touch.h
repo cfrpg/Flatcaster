@@ -45,10 +45,9 @@
 typedef struct
 {
 	s32 rawData[6][8];
-	s32 refData[6][8];
+	s32 refData[6][8];	
+	s32 stringState[6];
 	s8 trig[6][8];
-	s8 stringState[6];
-	s8 stringLastState[6];
 	s8 stringFert[6];
 	s32 lpf;
 	s32 thd;

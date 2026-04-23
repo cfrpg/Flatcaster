@@ -390,11 +390,6 @@
               <FilePath>..\src\at32f435_437_int.c</FilePath>
             </File>
             <File>
-              <FileName>at32f435_437_wk_config.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\at32f435_437_wk_config.c</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\main.c</FilePath>
@@ -410,39 +405,9 @@
               <FilePath>..\src\wk_dac.c</FilePath>
             </File>
             <File>
-              <FileName>wk_i2s.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\wk_i2s.c</FilePath>
-            </File>
-            <File>
               <FileName>wk_qspi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\wk_qspi.c</FilePath>
-            </File>
-            <File>
-              <FileName>wk_spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\wk_spi.c</FilePath>
-            </File>
-            <File>
-              <FileName>wk_tmr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\wk_tmr.c</FilePath>
-            </File>
-            <File>
-              <FileName>wk_usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\wk_usart.c</FilePath>
-            </File>
-            <File>
-              <FileName>wk_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\wk_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>wk_dma.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\wk_dma.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -693,6 +658,16 @@
               <FileName>touch.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\drivers\touch.h</FilePath>
+            </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\drivers\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\drivers\adc.h</FilePath>
             </File>
           </Files>
         </Group>

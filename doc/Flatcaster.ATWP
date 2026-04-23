@@ -193,6 +193,12 @@
         <Signal SignalName="GPIO_Output" PinName="PC1">
             <Parameters name="Label" value="LED_R"/>
         </Signal>
+        <Signal SignalName="ADC3_IN0" PinName="PA0">
+            <Parameters name="Label" value="ADC_VOL"/>
+        </Signal>
+        <Signal SignalName="ADC3_IN3" PinName="PA3">
+            <Parameters name="Label" value="ADC_BATT"/>
+        </Signal>
         <Signal SignalName="QSPI1_IO0" PinName="PA6">
             <Parameters name="Label" value="QSPI_IO0"/>
         </Signal>

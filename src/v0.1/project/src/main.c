@@ -12,6 +12,7 @@
 #include "ks_engine.h"
 #include "touch.h"
 #include "midi.h"
+#include "adc.h"
 
 void show_logo(void);
 
@@ -20,8 +21,12 @@ volatile u32 timecnt[4];
 float freq_table[6][7];
 
 KS_Engine my_guitar;
+float volume=0;
+u8 low_batt=0;
 
 u8 cnt=0;
+
+u8 adc_ch=0;
 
 int main(void)
 {  
@@ -31,24 +36,21 @@ int main(void)
 	MainClockInit();
 	ParamInit();
 	
+	// Init hardware drivers
 	LEDInit();
 	LEDSetPattern(LED_OFF,LED_OFF,LED_1Hz);
 	
+	ADCInit();
 	TouchInit();
 	MAX98357AInit();
 	
+	// Init software modules
 	ks_init(&my_guitar,48000);
-	u32 cnt=0;
+	u32 cnt=0;	
+	u8 output=0;
 	
-	LED_R=0;
 	
-	TouchScan();
-	delay_ms(1000);
-	TouchSetRef();
-	LED_R=1;
-	show_logo();
-	
-	// init freq table
+	// Init freq table
 	s32 first_fert=1;
 	s32 empty_fert=0;
 	
@@ -63,6 +65,16 @@ int main(void)
 		}
 	}
 	
+	// Check vol
+	ADCStartChannel(adc_ch);
+	
+	// Calibration
+	LED_R=0;
+	TouchScan();
+	delay_ms(1000);
+	TouchSetRef();
+	LED_R=1;
+	show_logo();	
 	
 	while(1)
 	{
@@ -71,7 +83,32 @@ int main(void)
 		{
 			timecnt[0]=0;
 			LEDUpdate();
-		
+			if(adc_ch==0)
+			{
+				// vol data
+				u16 vol=ADCReadOut()>>4;
+				volume=vol*1.0f/256;
+				adc_ch=3;
+				
+			}
+			else if(adc_ch==3)
+			{
+				// batt data
+				float volt=ADCReadVolt()*2;
+				if(low_batt==0 && volt<3.68f)
+				{
+					low_batt=1;
+					LEDSetPattern(LED_1Hz,LED_OFF,LED_OFF);
+				}
+				if(low_batt==1 && volt>3.68f)
+				{
+					low_batt=0;
+					LEDSetPattern(LED_OFF,LED_OFF,LED_1Hz);
+				}
+				adc_ch=0;
+				
+			}
+			ADCStartChannel(adc_ch);
 			
 			
 		}
@@ -79,15 +116,31 @@ int main(void)
 		if(timecnt[1]>=1000)
 		{
 			timecnt[1]=0;
-//			printf("DATA:");
-//			for(u32 i=0;i<6;i++)
-//			{
-//				for(u32 j=0;j<8;j++)
-//				{
-//					printf("%d,",touch.trig[i][j]);
-//				}
-//			}
-//			printf("\r\n");
+			if(output==0)
+			{
+				printf("DATA:");
+				for(u32 i=0;i<6;i++)
+				{
+					for(u32 j=0;j<8;j++)
+					{					
+						printf("%d,",touch.rawData[i][j]);					
+					}
+				}
+			}
+			else
+			{
+				printf("REF:");
+				for(u32 i=0;i<6;i++)
+				{
+					for(u32 j=0;j<8;j++)
+					{					
+						printf("%d,",touch.refData[i][j]);					
+					}
+				}
+			}
+			
+			printf("\r\n");
+			output^=1;
 		}
 		// 1000Hz update
 		if(timecnt[2]>=100)
@@ -98,11 +151,11 @@ int main(void)
 			
 			for(u8 str=0;str<6;str++)
 			{
-				if(touch.stringLastState[str]==0&&touch.stringState[str]==1)
+				if((touch.stringState[str]&0x3F)==1)
 				{
 					stop_string_soft(&my_guitar.strings[str]);
 					trig_note(&my_guitar,str,freq_table[str][touch.stringFert[str]],0.995f,0.5f);
-					printf("Trig:str:%d,fert:%d,freq:%f\r\n",str,touch.stringFert[str],freq_table[str][touch.stringFert[str]]);
+//					printf("Trig:str:%d,fert:%d,freq:%f\r\n",str,touch.stringFert[str],freq_table[str][touch.stringFert[str]]);
 				}
 			}
 			if(audioState.data_required!=0)
@@ -118,7 +171,7 @@ int main(void)
 					{
 						out+=(update_string(&my_guitar.strings[j])*32768.0f)/6;
 					}
-					audioState.buff[i+pos]=(s16)(out*0.6f);
+					audioState.buff[i+pos]=(s16)(out*volume);
 					audioState.buff[i+pos+1]=audioState.buff[i];
 				}
 				audioState.data_required=0;
