@@ -19,6 +19,7 @@ void show_logo(void);
 volatile u32 timecnt[4];
 
 float freq_table[6][7];
+u8 note_table[6][7];
 
 KS_Engine my_guitar;
 float volume=0;
@@ -50,20 +51,27 @@ int main(void)
 	u8 output=0;
 	
 	
-	// Init freq table
-	s32 first_fert=1;
+	// Init freq table	
 	s32 empty_fert=0;
-	
+	s32 first_fert=1;
 	for(u8 i=0;i<6;i++)
 	{
 		s32 idx=guitar_empty_string[i]+empty_fert;
-		freq_table[i][0]=midi_frequencies[idx];
+		note_table[i][0]=idx;		
 		for(u8 j=1;j<7;j++)
 		{
 			u8 real_fert=6-j+first_fert;
-			freq_table[i][j]=midi_frequencies[idx+real_fert];
+			note_table[i][j]=idx+real_fert;			
 		}
 	}
+	for(u8 i=0;i<6;i++)
+	{
+		for(u8 j=0;j<7;j++)
+		{
+			freq_table[i][j]=midi_frequencies[note_table[i][j]];
+		}
+	}
+
 	
 	// Check vol
 	ADCStartChannel(adc_ch);
@@ -137,8 +145,7 @@ int main(void)
 						printf("%d,",touch.refData[i][j]);					
 					}
 				}
-			}
-			
+			}			
 			printf("\r\n");
 			output^=1;
 		}
@@ -154,8 +161,8 @@ int main(void)
 				if((touch.stringState[str]&0x3F)==1)
 				{
 					stop_string_soft(&my_guitar.strings[str]);
-					trig_note(&my_guitar,str,freq_table[str][touch.stringFert[str]],0.995f,0.5f);
-//					printf("Trig:str:%d,fert:%d,freq:%f\r\n",str,touch.stringFert[str],freq_table[str][touch.stringFert[str]]);
+					trig_note(&my_guitar,str,freq_table[str][touch.stringFert[str]],0.992f,0.2f);
+					printf("TRIG:%d,%d,%d\r\n",str,touch.stringFert[str],note_table[str][touch.stringFert[str]]);
 				}
 			}
 			if(audioState.data_required!=0)
@@ -189,11 +196,8 @@ int main(void)
 				DebugUSARTGetCmd();
 				AnalyzePkg(debug_cmd_buff, debug_cmd_length);
 				debug_cmd_ready=0;
-			}
-			
-			
-		}
-		
+			}			
+		}		
 	}
 }
 

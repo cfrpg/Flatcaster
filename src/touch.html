@@ -2,117 +2,99 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>6x8 Matrix - Row Labeled</title>
+    <title>6x8 Matrix - Jitter Free</title>
     <style>
-        :root { --bg: #0d1117; --card: #161b22; --accent: #58a6ff; --text: #c9d1d9; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-        .layout { display: flex; gap: 20px; max-width: 1400px; margin: 0 auto; }
+        :root { --bg: #0d1117; --card: #161b22; --accent: #58a6ff; --text: #c9d1d9; --trig: #f2ce5b; }
         
-        /* 矩阵区域：增加一列宽度给行号 */
+        /* 全局应用 border-box，防止边框撑开高度 */
+        * { box-sizing: border-box; }
+
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .layout { display: flex; flex-direction: column; gap: 20px; max-width: 1400px; margin: 0 auto; }
+        .top-row { display: flex; gap: 20px; }
+
         #matrix { 
             display: grid; 
-            grid-template-columns: 100px repeat(8, 1fr); /* 第一列固定100px给行号，后面8列平分 */
+            grid-template-columns: 100px repeat(8, 1fr);
             gap: 5px; 
             background: #000; 
             padding: 10px; 
             border-radius: 8px; 
-            width: 750px; 
+            width: 800px; /* 稍微加宽一点 */
             box-shadow: 0 8px 24px rgba(0,0,0,0.5);
             align-items: center;
         }
 
-        /* 行号样式 */
-        .row-label {
-            color: #8b949e;
-            font-weight: bold;
-            font-size: 14px;
-            text-align: center;
-            padding-right: 10px;
-            user-select: none;
-        }
+        .row-label { color: #8b949e; font-weight: bold; font-size: 14px; text-align: center; }
 
         .cell { 
             height: 75px; 
             background: #21262d; 
+            border-radius: 4px;
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            border: 1px solid #30363d; 
-            border-radius: 4px;
-            transition: background 0.05s; 
+            /* 关键修复：预留 2px 边框位置，防止切换时抖动 */
+            border: 2px solid #30363d; 
+            transition: background 0.05s, border-color 0.1s; 
         }
-        .v { font-size: 18px; font-weight: bold; color: #fff; }
-        .sub { font-size: 9px; opacity: 0.5; margin-top: 4px; }
-        .touched { border: 2px solid #f85149; box-shadow: 0 0 12px rgba(248, 81, 73, 0.4); z-index: 2; }
+        .v { font-size: 18px; font-weight: bold; color: #fff; pointer-events: none; }
+        .sub { font-size: 9px; opacity: 0.5; margin-top: 4px; pointer-events: none; }
 
-        /* 面板区域 */
+        /* 触发状态：只改变颜色，不改变 border-width */
+        .touched { 
+            border-color: #f85149 !important; 
+            box-shadow: inset 0 0 10px rgba(248, 81, 73, 0.2);
+            z-index: 2; 
+        }
+
         .panel { flex: 1; background: var(--card); padding: 24px; border-radius: 12px; border: 1px solid #30363d; }
         .control-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
-        label { font-size: 13px; font-weight: 600; color: #8b949e; text-transform: uppercase; }
+        label { font-size: 13px; font-weight: 600; color: #8b949e; }
         input[type="range"] { width: 100%; cursor: pointer; }
-        
-        button { 
-            padding: 12px; border: none; border-radius: 6px; 
-            background: var(--accent); color: #fff; 
-            font-weight: bold; cursor: pointer; transition: 0.2s;
-        }
-        button:hover { filter: brightness(1.2); }
+        button { padding: 12px; border: none; border-radius: 6px; background: var(--accent); color: #fff; font-weight: bold; cursor: pointer; }
         button.secondary { background: #30363d; }
-        
-        #debug-log { 
-            margin-top: 20px; background: #000; color: #3fb950; 
-            padding: 12px; font-family: 'Cascadia Code', monospace; font-size: 11px; 
-            border-radius: 6px; border: 1px solid #30363d;
-            min-height: 60px; line-height: 1.5; overflow: hidden;
+
+        #trigger-monitor {
+            background: #000; border: 1px solid #30363d; border-radius: 8px; padding: 15px;
+            min-height: 180px; font-family: 'Cascadia Code', monospace;
         }
-        .stat-bar { margin-top: 15px; display: flex; justify-content: space-between; font-size: 12px; opacity: 0.7; }
-        .highlight { color: var(--accent); font-weight: bold; }
+        .monitor-header { color: var(--trig); font-size: 12px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #222; padding-bottom: 5px; }
+        .trig-row { height: 24px; line-height: 24px; font-size: 14px; color: #888; border-bottom: 1px solid #111; }
+        .trig-row.latest { color: var(--trig); font-weight: bold; }
+        .note-tag { background: #238636; color: white; padding: 2px 6px; border-radius: 3px; margin-left: 10px; font-size: 11px; vertical-align: middle; }
+
+        #debug-log { margin-top: 10px; background: #000; color: #3fb950; padding: 8px; font-size: 11px; border-radius: 4px; min-height: 34px;}
     </style>
 </head>
 <body>
 
 <div class="layout">
-    <div id="matrix">
-        </div>
+    <div class="top-row">
+        <div id="matrix"></div>
 
-    <div class="panel">
-        <button id="btn-connect" style="width:100%; font-size: 16px; margin-bottom: 20px;">连接串口设备 (921600)</button>
-        
-        <div class="control-group">
-            <label>显示模式</label>
-            <button id="btn-mode" class="secondary">当前: 差值模式 (ΔTc)</button>
-        </div>
-
-        <div class="control-group">
-            <label>基准校准</label>
-            <button id="btn-ref-manual" class="secondary">手动设为参考值</button>
-        </div>
-
-        <div class="control-group">
-            <label>按下判定阈值: <span id="label-touch" class="highlight">150</span></label>
-            <input type="range" id="input-touch" min="10" max="2000" value="150">
-        </div>
-
-        <div class="control-group" id="group-delta">
-            <label>ΔTc 色阶动态范围: <span id="label-dmax" class="highlight">800</span></label>
-            <input type="range" id="input-dmax" min="100" max="4000" value="800">
-        </div>
-
-        <div class="control-group" id="group-raw" style="display:none">
-            <label>Tc 原始值渲染范围 (Min - Max):</label>
-            <div style="display:flex; gap:10px;">
-                <input type="range" id="input-rmin" min="0" max="4095" value="1000">
-                <input type="range" id="input-rmax" min="0" max="4095" value="3000">
+        <div class="panel">
+            <button id="btn-connect" style="width:100%; font-size: 16px; margin-bottom: 20px;">连接串口 (921600)</button>
+            <div class="control-group">
+                <button id="btn-mode" class="secondary">模式: ΔTc</button>
+                <button id="btn-ref-manual" class="secondary" style="margin-top:5px">手动同步基准</button>
             </div>
+            <div class="control-group">
+                <label>判定阈值: <span id="label-touch">150</span></label>
+                <input type="range" id="input-touch" min="10" max="2000" value="150">
+            </div>
+            <div class="control-group">
+                <label>色阶范围: <span id="label-dmax">800</span></label>
+                <input type="range" id="input-dmax" min="100" max="4000" value="800">
+            </div>
+            <div id="debug-log">Ready...</div>
         </div>
+    </div>
 
-        <div id="debug-log">等待串口指令...</div>
-        
-        <div class="stat-bar">
-            <span>帧数: <span id="frame-count" class="highlight">0</span></span>
-            <span>状态: <span id="ref-status">待同步</span></span>
-        </div>
+    <div id="trigger-monitor">
+        <div class="monitor-header">REAL-TIME TRIGGER LOG</div>
+        <div id="trig-list"></div>
     </div>
 </div>
 
@@ -121,41 +103,36 @@
     let tc_ref = new Array(TOTAL).fill(0);
     let current_tc = new Array(TOTAL).fill(0);
     let isDeltaMode = true;
-    let frameCount = 0;
+    let triggerHistory = [];
 
     const matrixEl = document.getElementById('matrix');
-    const debugEl = document.getElementById('debug-log');
-    const cells = []; // 仅存储 48 个数据单元格的引用
+    const trigListEl = document.getElementById('trig-list');
+    const cells = [];
 
-    // 1. 初始化矩阵：每行开头插入行号标签
+    function midiToNote(midi) {
+        const names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+        return `${names[midi % 12]}${Math.floor(midi / 12) - 1}`;
+    }
+
     function initMatrix() {
         matrixEl.innerHTML = '';
-        cells.length = 0; 
-
         for (let r = 0; r < ROWS; r++) {
-            // 插入行号 (String x)
             const label = document.createElement('div');
             label.className = 'row-label';
             label.innerText = `String ${r + 1}`;
             matrixEl.appendChild(label);
-
-            // 插入该行的 8 个数据单元格
             for (let c = 0; c < COLS; c++) {
                 const div = document.createElement('div');
                 div.className = 'cell';
                 div.innerHTML = `<span class="v">0</span><span class="sub">R:0</span>`;
                 matrixEl.appendChild(div);
-                cells.push({
-                    el: div,
-                    v: div.querySelector('.v'),
-                    sub: div.querySelector('.sub')
-                });
+                cells.push({ el: div, v: div.querySelector('.v'), sub: div.querySelector('.sub') });
             }
         }
+        updateTriggerUI();
     }
     initMatrix();
 
-    // 2. 串口连接逻辑
     document.getElementById('btn-connect').onclick = async () => {
         try {
             const port = await navigator.serial.requestPort();
@@ -166,102 +143,78 @@
             const decoder = new TextDecoder();
             let buffer = '';
             const reader = port.readable.getReader();
-
             while (true) {
                 const { value, done } = await reader.read();
                 if (done) break;
-                
                 buffer += decoder.decode(value, { stream: true });
                 let lines = buffer.split('\n');
                 buffer = lines.pop();
-
-                for (let line of lines) {
-                    dispatchProtocol(line.trim());
-                }
+                for (let line of lines) dispatchProtocol(line.trim());
             }
-        } catch (e) {
-            debugEl.innerText = "Connection Error: " + e.message;
-        }
+        } catch (e) { console.error(e); }
     };
 
-    // 3. 协议分发 (支持 DATA: 和 REF:)
     function dispatchProtocol(line) {
         if (!line) return;
-
-        if (line.startsWith("REF:")) {
+        if (line.startsWith("TRIG:")) {
+            const parts = line.substring(5).match(/\d+/g);
+            if (parts && parts.length >= 3) {
+                const record = `String ${parts[0]} | Fret ${parts[1]} <span class="note-tag">${midiToNote(parts[2])}</span> (MIDI: ${parts[2]})`;
+                triggerHistory.push(record);
+                if (triggerHistory.length > 6) triggerHistory.shift();
+                updateTriggerUI();
+            }
+        } else if (line.startsWith("REF:")) {
             const nums = line.substring(4).match(/\d+/g);
             if (nums && nums.length >= TOTAL) {
                 for (let i = 0; i < TOTAL; i++) tc_ref[i] = parseInt(nums[i]);
-                document.getElementById('ref-status').innerText = "基准已同步(HW)";
-                debugEl.innerText = "REF Frame Processed.";
             }
-            return;
-        }
-
-        if (line.startsWith("DATA:")) {
+        } else if (line.startsWith("DATA:")) {
             const nums = line.substring(5).match(/\d+/g);
-            if (nums && nums.length >= TOTAL) {
-                updateUI(nums);
-            }
-            return;
+            if (nums && nums.length >= TOTAL) updateUI(nums);
         }
-        debugEl.innerText = "Raw: " + line.substring(0, 40);
     }
 
-    // 4. 更新 UI 渲染
-    function updateUI(nums) {
-        frameCount++;
-        document.getElementById('frame-count').innerText = frameCount;
+    function updateTriggerUI() {
+        trigListEl.innerHTML = '';
+        for (let i = 0; i < 6; i++) {
+            const div = document.createElement('div');
+            div.className = 'trig-row';
+            const idx = triggerHistory.length - 6 + i;
+            if (idx >= 0) {
+                div.innerHTML = triggerHistory[idx];
+                if (i === 5) div.classList.add('latest');
+            } else { div.innerHTML = "-"; }
+            trigListEl.appendChild(div);
+        }
+    }
 
+    function updateUI(nums) {
         const tThresh = parseInt(document.getElementById('input-touch').value);
         const dMax = parseInt(document.getElementById('input-dmax').value);
-        const rMin = parseInt(document.getElementById('input-rmin').value);
-        const rMax = parseInt(document.getElementById('input-rmax').value);
-
         for (let i = 0; i < TOTAL; i++) {
             const val = parseInt(nums[i]);
             current_tc[i] = val;
             const delta = val - tc_ref[i];
             const cell = cells[i];
-
-            let ratio = 0;
-            if (isDeltaMode) {
-                cell.v.innerText = delta;
-                cell.sub.innerText = `R:${val}`;
-                ratio = Math.max(0, Math.min(1, delta / dMax));
-            } else {
-                cell.v.innerText = val;
-                cell.sub.innerText = `Δ:${delta}`;
-                ratio = Math.max(0, Math.min(1, (val - rMin) / (rMax - rMin)));
-            }
-
-            const hue = 240 - (ratio * 240);
-            const light = 25 + (ratio * 25);
-            cell.el.style.backgroundColor = `hsl(${hue}, 70%, ${light}%)`;
-
+            const ratio = isDeltaMode ? Math.max(0, Math.min(1, delta / dMax)) : 0;
+            cell.v.innerText = isDeltaMode ? delta : val;
+            cell.sub.innerText = `R:${val}`;
+            cell.el.style.backgroundColor = `hsl(${240 - ratio * 240}, 70%, ${25 + ratio * 25}%)`;
+            
+            // 使用 classList 控制状态，CSS 中已保证边框宽度恒定
             if (delta > tThresh) cell.el.classList.add('touched');
             else cell.el.classList.remove('touched');
         }
     }
 
-    // 5. 交互绑定
     document.getElementById('btn-mode').onclick = (e) => {
         isDeltaMode = !isDeltaMode;
-        e.target.innerText = isDeltaMode ? "当前: 差值模式 (ΔTc)" : "当前: 原始值模式 (Tc)";
-        document.getElementById('group-delta').style.display = isDeltaMode ? 'flex' : 'none';
-        document.getElementById('group-raw').style.display = isDeltaMode ? 'none' : 'flex';
+        e.target.innerText = isDeltaMode ? "模式: ΔTc" : "模式: Tc";
     };
-
-    document.getElementById('btn-ref-manual').onclick = () => {
-        tc_ref = [...current_tc];
-        document.getElementById('ref-status').innerText = "已手动同步";
-    };
-
+    document.getElementById('btn-ref-manual').onclick = () => tc_ref = [...current_tc];
     document.querySelectorAll('input[type="range"]').forEach(s => {
-        s.oninput = () => {
-            const label = document.getElementById(s.id.replace('input', 'label'));
-            if(label) label.innerText = s.value;
-        };
+        s.oninput = () => document.getElementById(s.id.replace('input', 'label')).innerText = s.value;
     });
 </script>
 </body>

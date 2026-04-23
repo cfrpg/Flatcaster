@@ -113,7 +113,7 @@ void touch_timer_init(void)
 	tmr_clock_source_div_set(TMR2, TMR_CLOCK_DIV1);
 	tmr_period_buffer_enable(TMR2, FALSE);
 	tmr_one_cycle_mode_enable(TMR2,TRUE);
-	tmr_base_init(TMR2, 28800-1, 9-1);	//100us
+	tmr_base_init(TMR2, 2880-1, 9-1);	//100us
 	
 	
 	
@@ -232,7 +232,7 @@ void TouchInit(void)
 	
 	touch_gpio_init();
 	touch_timer_init();
-	touch.lpf=50;
+	touch.lpf=25;
 	touch.thd=200;
 	
 }
