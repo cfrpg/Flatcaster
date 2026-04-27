@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>6x8 Matrix - Jitter Free</title>
+    <title>Flatcaster - cfrpg</title>
     <style>
         :root { --bg: #0d1117; --card: #161b22; --accent: #58a6ff; --text: #c9d1d9; --trig: #f2ce5b; }
         
@@ -75,7 +75,7 @@
         <div id="matrix"></div>
 
         <div class="panel">
-            <button id="btn-connect" style="width:100%; font-size: 16px; margin-bottom: 20px;">连接串口 (921600)</button>
+            <button id="btn-connect" style="width:100%; font-size: 16px; margin-bottom: 20px;">连接串口</button>
             <div class="control-group">
                 <button id="btn-mode" class="secondary">模式: ΔTc</button>
                 <button id="btn-ref-manual" class="secondary" style="margin-top:5px">手动同步基准</button>
@@ -136,7 +136,7 @@
     document.getElementById('btn-connect').onclick = async () => {
         try {
             const port = await navigator.serial.requestPort();
-            await port.open({ baudRate: 921600 });
+            await port.open({ baudRate: 2000000 });
             document.getElementById('btn-connect').innerText = "通信中...";
             document.getElementById('btn-connect').disabled = true;
             
