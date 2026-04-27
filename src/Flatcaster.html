@@ -4,68 +4,30 @@
     <meta charset="UTF-8">
     <title>Flatcaster - cfrpg</title>
     <style>
-        :root { --bg: #0d1117; --card: #161b22; --accent: #58a6ff; --text: #c9d1d9; --trig: #f2ce5b; }
-        
-        /* 全局应用 border-box，防止边框撑开高度 */
+        :root { --bg: #0d1117; --card: #161b22; --accent: #58a6ff; --text: #c9d1d9; --trig: #f2ce5b; --header: #30363d; }
         * { box-sizing: border-box; }
-
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
         .layout { display: flex; flex-direction: column; gap: 20px; max-width: 1400px; margin: 0 auto; }
         .top-row { display: flex; gap: 20px; }
-
-        #matrix { 
-            display: grid; 
-            grid-template-columns: 100px repeat(8, 1fr);
-            gap: 5px; 
-            background: #000; 
-            padding: 10px; 
-            border-radius: 8px; 
-            width: 800px; /* 稍微加宽一点 */
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            align-items: center;
-        }
-
-        .row-label { color: #8b949e; font-weight: bold; font-size: 14px; text-align: center; }
-
-        .cell { 
-            height: 75px; 
-            background: #21262d; 
-            border-radius: 4px;
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            /* 关键修复：预留 2px 边框位置，防止切换时抖动 */
-            border: 2px solid #30363d; 
-            transition: background 0.05s, border-color 0.1s; 
-        }
-        .v { font-size: 18px; font-weight: bold; color: #fff; pointer-events: none; }
-        .sub { font-size: 9px; opacity: 0.5; margin-top: 4px; pointer-events: none; }
-
-        /* 触发状态：只改变颜色，不改变 border-width */
-        .touched { 
-            border-color: #f85149 !important; 
-            box-shadow: inset 0 0 10px rgba(248, 81, 73, 0.2);
-            z-index: 2; 
-        }
-
+        #matrix { display: grid; grid-template-columns: 100px repeat(8, 1fr); gap: 5px; background: #000; padding: 10px; border-radius: 8px; width: 800px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        .row-label { color: #8b949e; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+        .fret-header { color: var(--accent); font-weight: bold; font-size: 12px; text-align: center; padding: 5px 0; border-bottom: 1px solid var(--header); margin-bottom: 5px; }
+        .cell { height: 75px; background: #21262d; border-radius: 4px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #30363d; transition: background 0.05s, border-color 0.1s; }
+        .v { font-size: 18px; font-weight: bold; color: #fff; }
+        .sub { font-size: 9px; opacity: 0.5; margin-top: 4px; }
+        .touched { border-color: #f85149 !important; box-shadow: inset 0 0 10px rgba(248, 81, 73, 0.2); z-index: 2; }
         .panel { flex: 1; background: var(--card); padding: 24px; border-radius: 12px; border: 1px solid #30363d; }
-        .control-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
-        label { font-size: 13px; font-weight: 600; color: #8b949e; }
+        .control-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 8px; }
+        label { font-size: 12px; font-weight: 600; color: #8b949e; }
         input[type="range"] { width: 100%; cursor: pointer; }
         button { padding: 12px; border: none; border-radius: 6px; background: var(--accent); color: #fff; font-weight: bold; cursor: pointer; }
         button.secondary { background: #30363d; }
-
-        #trigger-monitor {
-            background: #000; border: 1px solid #30363d; border-radius: 8px; padding: 15px;
-            min-height: 180px; font-family: 'Cascadia Code', monospace;
-        }
+        #trigger-monitor { background: #000; border: 1px solid #30363d; border-radius: 8px; padding: 15px; min-height: 180px; font-family: 'Cascadia Code', monospace; }
         .monitor-header { color: var(--trig); font-size: 12px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #222; padding-bottom: 5px; }
         .trig-row { height: 24px; line-height: 24px; font-size: 14px; color: #888; border-bottom: 1px solid #111; }
         .trig-row.latest { color: var(--trig); font-weight: bold; }
-        .note-tag { background: #238636; color: white; padding: 2px 6px; border-radius: 3px; margin-left: 10px; font-size: 11px; vertical-align: middle; }
-
-        #debug-log { margin-top: 10px; background: #000; color: #3fb950; padding: 8px; font-size: 11px; border-radius: 4px; min-height: 34px;}
+        .note-tag { background: #238636; color: white; padding: 2px 6px; border-radius: 3px; margin-left: 10px; font-size: 11px; }
+        #debug-log { margin-top: 10px; background: #000; color: #3fb950; padding: 8px; font-size: 11px; border-radius: 4px; min-height: 34px; word-break: break-all; }
     </style>
 </head>
 <body>
@@ -73,7 +35,6 @@
 <div class="layout">
     <div class="top-row">
         <div id="matrix"></div>
-
         <div class="panel">
             <button id="btn-connect" style="width:100%; font-size: 16px; margin-bottom: 20px;">连接串口</button>
             <div class="control-group">
@@ -88,10 +49,13 @@
                 <label>色阶范围: <span id="label-dmax">800</span></label>
                 <input type="range" id="input-dmax" min="100" max="4000" value="800">
             </div>
-            <div id="debug-log">Ready...</div>
+            <div class="control-group" style="background:#000; padding:10px; border-radius:5px; border:1px solid #222;">
+                <label style="color:var(--accent)">硬件状态</label>
+                <div style="font-size:13px; margin-top:5px;">Capo: <span id="capo-val">0</span> | Offset: <span id="offset-val">0</span></div>
+            </div>
+            <div id="debug-log">等待连接...</div>
         </div>
     </div>
-
     <div id="trigger-monitor">
         <div class="monitor-header">REAL-TIME TRIGGER LOG</div>
         <div id="trig-list"></div>
@@ -104,10 +68,13 @@
     let current_tc = new Array(TOTAL).fill(0);
     let isDeltaMode = true;
     let triggerHistory = [];
+    let capoA = 0, offsetB = 0;
 
     const matrixEl = document.getElementById('matrix');
     const trigListEl = document.getElementById('trig-list');
+    const debugEl = document.getElementById('debug-log');
     const cells = [];
+    const fretHeaders = [];
 
     function midiToNote(midi) {
         const names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -116,21 +83,37 @@
 
     function initMatrix() {
         matrixEl.innerHTML = '';
+        cells.length = 0; fretHeaders.length = 0;
+        const corner = document.createElement('div');
+        corner.className = 'row-label'; corner.innerText = 'Fret →';
+        matrixEl.appendChild(corner);
+        for (let c = 0; c < COLS; c++) {
+            const h = document.createElement('div');
+            h.className = 'fret-header'; h.innerText = '-';
+            matrixEl.appendChild(h); fretHeaders.push(h);
+        }
         for (let r = 0; r < ROWS; r++) {
             const label = document.createElement('div');
-            label.className = 'row-label';
-            label.innerText = `String ${r + 1}`;
+            label.className = 'row-label'; label.innerText = `String ${r + 1}`;
             matrixEl.appendChild(label);
             for (let c = 0; c < COLS; c++) {
                 const div = document.createElement('div');
-                div.className = 'cell';
-                div.innerHTML = `<span class="v">0</span><span class="sub">R:0</span>`;
+                div.className = 'cell'; div.innerHTML = `<span class="v">0</span><span class="sub">R:0</span>`;
                 matrixEl.appendChild(div);
                 cells.push({ el: div, v: div.querySelector('.v'), sub: div.querySelector('.sub') });
             }
         }
-        updateTriggerUI();
+        updateFretDisplay(); updateTriggerUI();
     }
+
+    function updateFretDisplay() {
+        for (let c = 0; c < COLS; c++) {
+            fretHeaders[c].innerText = `F${c === 0 ? capoA : (c + capoA + offsetB)}`;
+        }
+        document.getElementById('capo-val').innerText = capoA;
+        document.getElementById('offset-val').innerText = offsetB;
+    }
+
     initMatrix();
 
     document.getElementById('btn-connect').onclick = async () => {
@@ -143,35 +126,61 @@
             const decoder = new TextDecoder();
             let buffer = '';
             const reader = port.readable.getReader();
+            
             while (true) {
                 const { value, done } = await reader.read();
                 if (done) break;
+                
                 buffer += decoder.decode(value, { stream: true });
-                let lines = buffer.split('\n');
+                let lines = buffer.split(/\r?\n/);
                 buffer = lines.pop();
-                for (let line of lines) dispatchProtocol(line.trim());
+
+                for (let line of lines) {
+                    if (line.length > 0) {
+                        try {
+                            dispatchProtocol(line.trim());
+                        } catch (err) {
+                            console.error("解析单行错误:", err);
+                        }
+                    }
+                }
             }
-        } catch (e) { console.error(e); }
+        } catch (e) {
+            debugEl.innerText = "串口错误: " + e.message;
+            document.getElementById('btn-connect').innerText = "重连串口";
+            document.getElementById('btn-connect').disabled = false;
+        }
     };
 
     function dispatchProtocol(line) {
-        if (!line) return;
-        if (line.startsWith("TRIG:")) {
-            const parts = line.substring(5).match(/\d+/g);
-            if (parts && parts.length >= 3) {
-                const record = `String ${parts[0]} | Fret ${parts[1]} <span class="note-tag">${midiToNote(parts[2])}</span> (MIDI: ${parts[2]})`;
+        // 健壮性检查：支持 DATA, REF, TRIG, FERT
+        if (line.startsWith("DATA:")) {
+            const nums = line.match(/-?\d+/g); // 支持负数
+            if (nums && nums.length >= TOTAL) updateUI(nums);
+        } 
+        else if (line.startsWith("REF:")) {
+            const nums = line.match(/-?\d+/g);
+            if (nums && nums.length >= TOTAL) {
+                for (let i = 0; i < TOTAL; i++) tc_ref[i] = parseInt(nums[i]);
+                debugEl.innerText = "基准已更新";
+            }
+        } 
+        else if (line.startsWith("TRIG:")) {
+            const p = line.match(/\d+/g);
+            if (p && p.length >= 3) {
+                const record = `String ${p[0]} | Fret ${p[1]} <span class="note-tag">${midiToNote(p[2])}</span> (MIDI: ${p[2]})`;
                 triggerHistory.push(record);
                 if (triggerHistory.length > 6) triggerHistory.shift();
                 updateTriggerUI();
             }
-        } else if (line.startsWith("REF:")) {
-            const nums = line.substring(4).match(/\d+/g);
-            if (nums && nums.length >= TOTAL) {
-                for (let i = 0; i < TOTAL; i++) tc_ref[i] = parseInt(nums[i]);
+        } 
+        else if (line.startsWith("FERT:")) {
+            const p = line.match(/-?\d+/g);
+            if (p && p.length >= 2) {
+                capoA = parseInt(p[0]);
+                offsetB = parseInt(p[1]);
+                updateFretDisplay();
             }
-        } else if (line.startsWith("DATA:")) {
-            const nums = line.substring(5).match(/\d+/g);
-            if (nums && nums.length >= TOTAL) updateUI(nums);
         }
     }
 
@@ -197,12 +206,13 @@
             current_tc[i] = val;
             const delta = val - tc_ref[i];
             const cell = cells[i];
+            if(!cell) continue;
+
             const ratio = isDeltaMode ? Math.max(0, Math.min(1, delta / dMax)) : 0;
             cell.v.innerText = isDeltaMode ? delta : val;
             cell.sub.innerText = `R:${val}`;
             cell.el.style.backgroundColor = `hsl(${240 - ratio * 240}, 70%, ${25 + ratio * 25}%)`;
             
-            // 使用 classList 控制状态，CSS 中已保证边框宽度恒定
             if (delta > tThresh) cell.el.classList.add('touched');
             else cell.el.classList.remove('touched');
         }
@@ -212,7 +222,10 @@
         isDeltaMode = !isDeltaMode;
         e.target.innerText = isDeltaMode ? "模式: ΔTc" : "模式: Tc";
     };
-    document.getElementById('btn-ref-manual').onclick = () => tc_ref = [...current_tc];
+    document.getElementById('btn-ref-manual').onclick = () => {
+        tc_ref = [...current_tc];
+        debugEl.innerText = "手动校准完成";
+    };
     document.querySelectorAll('input[type="range"]').forEach(s => {
         s.oninput = () => document.getElementById(s.id.replace('input', 'label')).innerText = s.value;
     });

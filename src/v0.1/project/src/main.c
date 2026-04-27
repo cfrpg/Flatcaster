@@ -30,17 +30,12 @@ u8 note_table[6][7];
 KS_Engine my_guitar;
 SPL_Engine spl_guitar;
 
+s8 capoPos,fertShift;
+
 float volume=0;
 u8 low_batt=0;
 
-u8 cnt=0;
-
 u8 adc_ch=0;
-
-s16 string_buff[6][1024];
-s32 string_pos[6];
-s32 string_note[6];
-float outbuff[I2S_BUF_SIZE];
 
 u8 source=0;
 
@@ -57,6 +52,27 @@ void set_LED(void)
 		else
 			LEDSetPattern(LED_OFF,LED_1Hz,LED_OFF);
 	}
+}
+
+void update_fert(void)
+{
+	for(u8 i=0;i<6;i++)
+	{
+		s32 idx=guitar_empty_string[i]+capoPos;
+		note_table[i][0]=idx;		
+		for(u8 j=1;j<7;j++)
+		{
+			u8 real_fert=6-j+fertShift+1;
+			note_table[i][j]=idx+real_fert;			
+		}
+	}
+	for(u8 i=0;i<6;i++)
+	{
+		for(u8 j=0;j<7;j++)
+		{
+			freq_table[i][j]=midi_frequencies[note_table[i][j]];
+		}
+	}	
 }
 
 int main(void)
@@ -84,32 +100,13 @@ int main(void)
 	u32 cnt=0;	
 	u8 output=0;
 
-	for(u8 i=0;i<6;i++)
-	{
-		string_pos[i]=-1;
-		string_note[i]=0;
-	}
+	
 	
 	// Init freq table	
-	s32 empty_fert=0;
-	s32 first_fert=1;
-	for(u8 i=0;i<6;i++)
-	{
-		s32 idx=guitar_empty_string[i]+empty_fert;
-		note_table[i][0]=idx;		
-		for(u8 j=1;j<7;j++)
-		{
-			u8 real_fert=6-j+first_fert;
-			note_table[i][j]=idx+real_fert;			
-		}
-	}
-	for(u8 i=0;i<6;i++)
-	{
-		for(u8 j=0;j<7;j++)
-		{
-			freq_table[i][j]=midi_frequencies[note_table[i][j]];
-		}
-	}	
+	capoPos=0;
+	fertShift=0;
+	update_fert();
+	
 	// Check vol
 	ADCStartChannel(adc_ch);
 	
@@ -155,7 +152,8 @@ int main(void)
 				adc_ch=0;
 				
 			}
-			ADCStartChannel(adc_ch);			
+			ADCStartChannel(adc_ch);
+			printf("FERT:%d,%d\r\n",capoPos,fertShift);
 			
 		}
 		// 50Hz update
@@ -168,6 +166,11 @@ int main(void)
 			{	
 				source^=1;
 				set_LED();
+			}
+			
+			if(KeyStatus[1]==0xFFFF0000)
+			{
+				update_fert();
 			}
 			if(output==0)
 			{
@@ -201,25 +204,61 @@ int main(void)
 			// get input
 			TouchGetKey();
 			
-			// trigger note
-			for(u8 str=0;str<6;str++)
-			{
-				if((touch.stringState[str]&0x3F)==1)
+			
+			if(KeyStatus[1]&0xFFFF)
+			{				
+				u32 shift=0;
+				// set capo & shift
+				for(u8 str=5;str>=2;str--)
 				{
-					u8 note=note_table[str][touch.stringFert[str]];
-					if(source==0)
+					if(touch.stringFert[str]!=0)
 					{
-						stop_string_soft(&my_guitar.strings[str]);
-						trig_note(&my_guitar,str,midi_frequencies[note],0.992f,0.2f);
+						shift=(5-str)*6+(6-touch.stringFert[str]);
+						break;
 					}
-					else
+				}
+				
+				if((touch.stringState[0]&0x3F)==1)
+				{
+					// set capo
+					capoPos=shift;
+				}
+				else if((touch.stringState[5]&0x3F)==1)
+				{
+					// set shift
+					fertShift=shift;
+				}
+				else if(((touch.stringState[3]&0x3F)==1)||((touch.stringState[2]&0x3F)==1))
+				{
+					//reset
+					capoPos=0;
+					fertShift=0;
+				}
+				
+			}
+			else
+			{
+				// trigger note
+				for(u8 str=0;str<6;str++)
+				{
+					if((touch.stringState[str]&0x3F)==1)
 					{
-						SPL_Trig_note(&spl_guitar,str,note);
+						u8 note=note_table[str][touch.stringFert[str]];
+						if(source==0)
+						{
+							stop_string_soft(&my_guitar.strings[str]);
+							trig_note(&my_guitar,str,midi_frequencies[note],0.992f,0.2f);
+						}
+						else
+						{
+							SPL_Trig_note(&spl_guitar,str,note);
+						}
+						
+						printf("TRIG:%d,%d,%d\r\n",str,touch.stringFert[str]==0?0:7-touch.stringFert[str],note);
 					}
-					
-					printf("TRIG:%d,%d,%d\r\n",str,touch.stringFert[str]==0?0:7-touch.stringFert[str],note);
 				}
 			}
+			
 			if(audioState.data_required!=0)
 			{
 				u32 pos=0;
@@ -252,7 +291,7 @@ int main(void)
 								out+=((float)spl_guitar.strings[j].buff[i/2]);
 							}						
 						}
-						out=Clampf(out/3*volume,-32767,32767);
+						out=Clampf(out/2*volume,-32767,32767);
 						audioState.buff[i+pos]=(s16)(out*volume);
 						audioState.buff[i+pos+1]=audioState.buff[i+pos];
 					}
