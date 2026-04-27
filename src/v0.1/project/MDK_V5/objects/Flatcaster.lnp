@@ -1,9 +1,6 @@
 --cpu=Cortex-M4.fp.sp
 ".\objects\at32f435_437_int.o"
 ".\objects\main.o"
-".\objects\wk_adc.o"
-".\objects\wk_dac.o"
-".\objects\wk_qspi.o"
 ".\objects\at32f435_437_crm.o"
 ".\objects\at32f435_437_tmr.o"
 ".\objects\at32f435_437_ertc.o"
@@ -43,6 +40,9 @@
 ".\objects\max98357a.o"
 ".\objects\touch.o"
 ".\objects\adc.o"
+".\objects\norflash.o"
+".\objects\qspicmd.o"
+".\objects\keys.o"
 ".\objects\parameter.o"
 ".\objects\parameterlist.o"
 ".\objects\parameterref.o"
@@ -50,8 +50,10 @@
 ".\objects\ks_engine.o"
 ".\objects\ks_data.o"
 ".\objects\midi.o"
+".\objects\spl_engine.o"
 ".\objects\signalgen.o"
 ".\objects\mathhelper.o"
+".\objects\instrument_data.o"
 --library_type=microlib --strict --scatter ".\objects\Flatcaster.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

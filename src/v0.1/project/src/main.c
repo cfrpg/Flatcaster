@@ -13,6 +13,12 @@
 #include "touch.h"
 #include "midi.h"
 #include "adc.h"
+#include "norflash.h"
+#include "instrument_data.h"
+#include "mathHelper.h"
+#include "spl_engine.h"
+#include "keys.h"
+
 
 void show_logo(void);
 
@@ -22,6 +28,8 @@ float freq_table[6][7];
 u8 note_table[6][7];
 
 KS_Engine my_guitar;
+SPL_Engine spl_guitar;
+
 float volume=0;
 u8 low_batt=0;
 
@@ -29,27 +37,58 @@ u8 cnt=0;
 
 u8 adc_ch=0;
 
+s16 string_buff[6][1024];
+s32 string_pos[6];
+s32 string_note[6];
+float outbuff[I2S_BUF_SIZE];
+
+u8 source=0;
+
+void set_LED(void)
+{
+	if(low_batt==1)
+	{
+		LEDSetPattern(LED_1Hz,LED_OFF,LED_OFF);
+	}
+	else
+	{
+		if(source==0)
+			LEDSetPattern(LED_OFF,LED_OFF,LED_1Hz);
+		else
+			LEDSetPattern(LED_OFF,LED_1Hz,LED_OFF);
+	}
+}
+
 int main(void)
 {  
 	SystemConfigInit();
 	DelayInit(288000000);
-	DebugUSARTInit(921600);
+	DebugUSARTInit(2000000);
 	MainClockInit();
 	ParamInit();
 	
 	// Init hardware drivers
 	LEDInit();
 	LEDSetPattern(LED_OFF,LED_OFF,LED_1Hz);
+	KeysInit();
 	
 	ADCInit();
 	TouchInit();
 	MAX98357AInit();
+	FlashInit();	
+	FlashXIPInit();
 	
 	// Init software modules
 	ks_init(&my_guitar,48000);
+	SPL_Init(&spl_guitar,&UI_guitar);
 	u32 cnt=0;	
 	u8 output=0;
-	
+
+	for(u8 i=0;i<6;i++)
+	{
+		string_pos[i]=-1;
+		string_note[i]=0;
+	}
 	
 	// Init freq table	
 	s32 empty_fert=0;
@@ -70,9 +109,7 @@ int main(void)
 		{
 			freq_table[i][j]=midi_frequencies[note_table[i][j]];
 		}
-	}
-
-	
+	}	
 	// Check vol
 	ADCStartChannel(adc_ch);
 	
@@ -82,7 +119,9 @@ int main(void)
 	delay_ms(1000);
 	TouchSetRef();
 	LED_R=1;
-	show_logo();	
+	show_logo();
+	
+//	while(1);
 	
 	while(1)
 	{
@@ -106,24 +145,30 @@ int main(void)
 				if(low_batt==0 && volt<3.68f)
 				{
 					low_batt=1;
-					LEDSetPattern(LED_1Hz,LED_OFF,LED_OFF);
+					set_LED();
 				}
 				if(low_batt==1 && volt>3.68f)
 				{
 					low_batt=0;
-					LEDSetPattern(LED_OFF,LED_OFF,LED_1Hz);
+					set_LED();
 				}
 				adc_ch=0;
 				
 			}
-			ADCStartChannel(adc_ch);
-			
+			ADCStartChannel(adc_ch);			
 			
 		}
-		// 100Hz update
-		if(timecnt[1]>=1000)
+		// 50Hz update
+		if(timecnt[1]>=2000)
 		{
 			timecnt[1]=0;
+			// check keys
+			KeysUpdate();
+			if((KeyStatus[0])==0x0F)
+			{	
+				source^=1;
+				set_LED();
+			}
 			if(output==0)
 			{
 				printf("DATA:");
@@ -156,13 +201,23 @@ int main(void)
 			// get input
 			TouchGetKey();
 			
+			// trigger note
 			for(u8 str=0;str<6;str++)
 			{
 				if((touch.stringState[str]&0x3F)==1)
 				{
-					stop_string_soft(&my_guitar.strings[str]);
-					trig_note(&my_guitar,str,freq_table[str][touch.stringFert[str]],0.992f,0.2f);
-					printf("TRIG:%d,%d,%d\r\n",str,touch.stringFert[str],note_table[str][touch.stringFert[str]]);
+					u8 note=note_table[str][touch.stringFert[str]];
+					if(source==0)
+					{
+						stop_string_soft(&my_guitar.strings[str]);
+						trig_note(&my_guitar,str,midi_frequencies[note],0.992f,0.2f);
+					}
+					else
+					{
+						SPL_Trig_note(&spl_guitar,str,note);
+					}
+					
+					printf("TRIG:%d,%d,%d\r\n",str,touch.stringFert[str]==0?0:7-touch.stringFert[str],note);
 				}
 			}
 			if(audioState.data_required!=0)
@@ -171,19 +226,40 @@ int main(void)
 				
 				if(audioState.data_required==2)
 					pos=I2S_BUF_SIZE;
-				for(u32 i=0;i<I2S_BUF_SIZE;i+=2)
+				if(source==0)
 				{
-					float out=0;
-					for(u32 j=0;j<6;j++)
+					for(u32 i=0;i<I2S_BUF_SIZE;i+=2)
 					{
-						out+=(update_string(&my_guitar.strings[j])*32768.0f)/6;
+						float out=0;
+						for(u32 j=0;j<6;j++)
+						{
+							out+=(update_string(&my_guitar.strings[j])*32768.0f)/6;
+						}
+						audioState.buff[i+pos]=(s16)(out*volume);
+						audioState.buff[i+pos+1]=audioState.buff[i+pos];
 					}
-					audioState.buff[i+pos]=(s16)(out*volume);
-					audioState.buff[i+pos+1]=audioState.buff[i];
+				}
+				else
+				{
+					SPL_UpdateBuff(&spl_guitar);
+					for(u32 i=0;i<I2S_BUF_SIZE;i+=2)
+					{
+						float out=0;
+						for(u32 j=0;j<6;j++)
+						{
+							if(spl_guitar.strings[j].active>=0)
+							{
+								out+=((float)spl_guitar.strings[j].buff[i/2]);
+							}						
+						}
+						out=Clampf(out/3*volume,-32767,32767);
+						audioState.buff[i+pos]=(s16)(out*volume);
+						audioState.buff[i+pos+1]=audioState.buff[i+pos];
+					}
 				}
 				audioState.data_required=0;
-			}			
-
+			}
+//			printf("%d\r\n",timecnt[2]);
 		}
 		// Slow work, 1Hz
 		if(timecnt[3]>=100000)

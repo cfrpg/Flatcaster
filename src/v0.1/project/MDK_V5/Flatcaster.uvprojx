@@ -138,7 +138,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -281,8 +281,8 @@
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <StartAddress>0x90000000</StartAddress>
+                <Size>0x2000000</Size>
               </OCR_RVCT5>
               <OCR_RVCT6>
                 <Type>0</Type>
@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F435RMT7,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\libraries\drivers\inc;..\..\libraries\cmsis\cm4\core_support;..\..\libraries\cmsis\cm4\device_support;..\inc;..\src\sys;..\src\drivers;..\src\module;..\src\tools</IncludePath>
+              <IncludePath>..\..\libraries\drivers\inc;..\..\libraries\cmsis\cm4\core_support;..\..\libraries\cmsis\cm4\device_support;..\inc;..\src\sys;..\src\drivers;..\src\module;..\src\tools;..\src\flash_data</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -393,21 +393,6 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>wk_adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\wk_adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>wk_dac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\wk_dac.c</FilePath>
-            </File>
-            <File>
-              <FileName>wk_qspi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\wk_qspi.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -669,6 +654,36 @@
               <FileType>5</FileType>
               <FilePath>..\src\drivers\adc.h</FilePath>
             </File>
+            <File>
+              <FileName>norflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\drivers\norflash.c</FilePath>
+            </File>
+            <File>
+              <FileName>norflash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\drivers\norflash.h</FilePath>
+            </File>
+            <File>
+              <FileName>qspicmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\drivers\qspicmd.c</FilePath>
+            </File>
+            <File>
+              <FileName>qspicmd.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\drivers\qspicmd.h</FilePath>
+            </File>
+            <File>
+              <FileName>keys.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\drivers\keys.c</FilePath>
+            </File>
+            <File>
+              <FileName>keys.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\drivers\keys.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -729,6 +744,16 @@
               <FileType>5</FileType>
               <FilePath>..\src\module\midi.h</FilePath>
             </File>
+            <File>
+              <FileName>spl_engine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\module\spl_engine.c</FilePath>
+            </File>
+            <File>
+              <FileName>spl_engine.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\module\spl_engine.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -753,6 +778,90 @@
               <FileName>mathHelper.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\tools\mathHelper.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>flash_data</GroupName>
+          <GroupOption>
+            <CommonProperty>
+              <UseCPPCompiler>0</UseCPPCompiler>
+              <RVCTCodeConst>5</RVCTCodeConst>
+              <RVCTZI>0</RVCTZI>
+              <RVCTOtherData>0</RVCTOtherData>
+              <ModuleSelection>0</ModuleSelection>
+              <IncludeInBuild>2</IncludeInBuild>
+              <AlwaysBuild>2</AlwaysBuild>
+              <GenerateAssemblyFile>2</GenerateAssemblyFile>
+              <AssembleAssemblyFile>2</AssembleAssemblyFile>
+              <PublicsOnly>2</PublicsOnly>
+              <StopOnExitCode>11</StopOnExitCode>
+              <CustomArgument></CustomArgument>
+              <IncludeLibraryModules></IncludeLibraryModules>
+              <ComprImg>1</ComprImg>
+            </CommonProperty>
+            <GroupArmAds>
+              <Cads>
+                <interw>2</interw>
+                <Optim>0</Optim>
+                <oTime>2</oTime>
+                <SplitLS>2</SplitLS>
+                <OneElfS>2</OneElfS>
+                <Strict>2</Strict>
+                <EnumInt>2</EnumInt>
+                <PlainCh>2</PlainCh>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <wLevel>0</wLevel>
+                <uThumb>2</uThumb>
+                <uSurpInc>2</uSurpInc>
+                <uC99>2</uC99>
+                <uGnu>2</uGnu>
+                <useXO>2</useXO>
+                <v6Lang>0</v6Lang>
+                <v6LangP>0</v6LangP>
+                <vShortEn>2</vShortEn>
+                <vShortWch>2</vShortWch>
+                <v6Lto>2</v6Lto>
+                <v6WtE>2</v6WtE>
+                <v6Rtti>2</v6Rtti>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Cads>
+              <Aads>
+                <interw>2</interw>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <thumb>2</thumb>
+                <SplitLS>2</SplitLS>
+                <SwStkChk>2</SwStkChk>
+                <NoWarn>2</NoWarn>
+                <uSurpInc>2</uSurpInc>
+                <useXO>2</useXO>
+                <ClangAsOpt>0</ClangAsOpt>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Aads>
+            </GroupArmAds>
+          </GroupOption>
+          <Files>
+            <File>
+              <FileName>instrument_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\flash_data\instrument_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>instrument_data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\flash_data\instrument_data.h</FilePath>
             </File>
           </Files>
         </Group>

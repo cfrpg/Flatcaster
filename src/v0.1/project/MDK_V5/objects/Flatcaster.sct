@@ -14,3 +14,8 @@ LR_IROM1 0x08000000 0x003F0000  {    ; load region size_region
   }
 }
 
+LR_IROM2 0x90000000 0x02000000  {
+  ER_IROM2 0x90000000 0x02000000  {  ; load address = execution address
+    instrument_data.o (+RO)
+  }
+}
