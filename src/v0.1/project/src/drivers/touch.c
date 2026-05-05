@@ -232,7 +232,7 @@ void TouchInit(void)
 	
 	touch_gpio_init();
 	touch_timer_init();
-	touch.lpf=25;
+	touch.lpf=50;
 	touch.thd=200;
 	
 }

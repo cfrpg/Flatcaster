@@ -19,6 +19,9 @@
 #include "spl_engine.h"
 #include "keys.h"
 
+#define STATE_PLAY	0
+#define STATE_CALI	1
+#define STATE_SET	2
 
 void show_logo(void);
 
@@ -30,7 +33,8 @@ u8 note_table[6][7];
 KS_Engine my_guitar;
 SPL_Engine spl_guitar;
 
-s8 capoPos,fertShift;
+s32 *capoPos;
+s32 *fertShift;
 
 float volume=0;
 u8 low_batt=0;
@@ -39,18 +43,31 @@ u8 adc_ch=0;
 
 u8 source=0;
 
+
+
+u8 state=0;
+
+
 void set_LED(void)
 {
 	if(low_batt==1)
 	{
-		LEDSetPattern(LED_1Hz,LED_OFF,LED_OFF);
+		LEDSetPattern(LED_2Hz,LED_OFF,LED_OFF);
 	}
 	else
 	{
-		if(source==0)
-			LEDSetPattern(LED_OFF,LED_OFF,LED_1Hz);
-		else
-			LEDSetPattern(LED_OFF,LED_1Hz,LED_OFF);
+		if(state==STATE_PLAY)
+		{
+			if(source==0)
+				LEDSetPattern(LED_OFF,LED_OFF,LED_1Hz);
+			else
+				LEDSetPattern(LED_OFF,LED_1Hz,LED_OFF);
+		}
+		if(state==STATE_SET)
+		{
+			LEDSetPattern(LED_ON,LED_OFF,LED_OFF);
+		}
+		
 	}
 }
 
@@ -58,11 +75,11 @@ void update_fert(void)
 {
 	for(u8 i=0;i<6;i++)
 	{
-		s32 idx=guitar_empty_string[i]+capoPos;
+		s32 idx=guitar_empty_string[i]+*capoPos;
 		note_table[i][0]=idx;		
 		for(u8 j=1;j<7;j++)
 		{
-			u8 real_fert=6-j+fertShift+1;
+			u8 real_fert=6-j+*fertShift+1;
 			note_table[i][j]=idx+real_fert;			
 		}
 	}
@@ -85,6 +102,7 @@ int main(void)
 	
 	// Init hardware drivers
 	LEDInit();
+	LEDSetRGB(0,1,1);
 	LEDSetPattern(LED_OFF,LED_OFF,LED_1Hz);
 	KeysInit();
 	
@@ -103,8 +121,8 @@ int main(void)
 	
 	
 	// Init freq table	
-	capoPos=0;
-	fertShift=0;
+	capoPos=ParamGetFromName("CAPO_POS");
+	fertShift=ParamGetFromName("FERT_SHIFT");
 	update_fert();
 	
 	// Check vol
@@ -153,25 +171,48 @@ int main(void)
 				
 			}
 			ADCStartChannel(adc_ch);
-			printf("FERT:%d,%d\r\n",capoPos,fertShift);
+			printf("FERT:%d,%d\r\n",*capoPos,*fertShift);
+			
+			// check keys
+			KeysUpdate();
+			if((KeyStatus[0]&0x01)==0)
+			{
+				if((KeyStatus[0])==0xFFFFFFFE)
+				{	
+					if(state==STATE_PLAY)
+					{
+						TouchSetRef();					
+						LEDFlash(3);
+					}
+					else if(state==STATE_SET)
+					{
+						ParamWrite();
+						LEDFlash(5);
+					}
+					
+				}
+				else if((KeyStatus[0]&0x1E)==0x1E)
+				{
+					if(state==STATE_PLAY)
+					{
+						source^=1;
+						set_LED();
+					}
+					else if(state==STATE_SET)
+					{
+						
+					}
+					
+				}			
+			}
+			
 			
 		}
 		// 50Hz update
 		if(timecnt[1]>=2000)
 		{
 			timecnt[1]=0;
-			// check keys
-			KeysUpdate();
-			if((KeyStatus[0])==0x0F)
-			{	
-				source^=1;
-				set_LED();
-			}
 			
-			if(KeyStatus[1]==0xFFFF0000)
-			{
-				update_fert();
-			}
 			if(output==0)
 			{
 				printf("DATA:");
@@ -204,44 +245,12 @@ int main(void)
 			// get input
 			TouchGetKey();
 			
-			
-			if(KeyStatus[1]&0xFFFF)
-			{				
-				u32 shift=0;
-				// set capo & shift
-				for(u8 str=5;str>=2;str--)
-				{
-					if(touch.stringFert[str]!=0)
-					{
-						shift=(5-str)*6+(6-touch.stringFert[str]);
-						break;
-					}
-				}
-				
-				if((touch.stringState[0]&0x3F)==1)
-				{
-					// set capo
-					capoPos=shift;
-				}
-				else if((touch.stringState[5]&0x3F)==1)
-				{
-					// set shift
-					fertShift=shift;
-				}
-				else if(((touch.stringState[3]&0x3F)==1)||((touch.stringState[2]&0x3F)==1))
-				{
-					//reset
-					capoPos=0;
-					fertShift=0;
-				}
-				
-			}
-			else
+			if(state==STATE_PLAY)
 			{
 				// trigger note
 				for(u8 str=0;str<6;str++)
 				{
-					if((touch.stringState[str]&0x3F)==1)
+					if((touch.stringState[str]&0xFF)==0xF)
 					{
 						u8 note=note_table[str][touch.stringFert[str]];
 						if(source==0)
@@ -257,47 +266,94 @@ int main(void)
 						printf("TRIG:%d,%d,%d\r\n",str,touch.stringFert[str]==0?0:7-touch.stringFert[str],note);
 					}
 				}
-			}
-			
-			if(audioState.data_required!=0)
-			{
-				u32 pos=0;
 				
-				if(audioState.data_required==2)
-					pos=I2S_BUF_SIZE;
-				if(source==0)
+				if(audioState.data_required!=0)
 				{
-					for(u32 i=0;i<I2S_BUF_SIZE;i+=2)
+					u32 pos=0;
+					
+					if(audioState.data_required==2)
+						pos=I2S_BUF_SIZE;
+					if(source==0)
 					{
-						float out=0;
-						for(u32 j=0;j<6;j++)
+						for(u32 i=0;i<I2S_BUF_SIZE;i+=2)
 						{
-							out+=(update_string(&my_guitar.strings[j])*32768.0f)/6;
-						}
-						audioState.buff[i+pos]=(s16)(out*volume);
-						audioState.buff[i+pos+1]=audioState.buff[i+pos];
-					}
-				}
-				else
-				{
-					SPL_UpdateBuff(&spl_guitar);
-					for(u32 i=0;i<I2S_BUF_SIZE;i+=2)
-					{
-						float out=0;
-						for(u32 j=0;j<6;j++)
-						{
-							if(spl_guitar.strings[j].active>=0)
+							float out=0;
+							for(u32 j=0;j<6;j++)
 							{
-								out+=((float)spl_guitar.strings[j].buff[i/2]);
-							}						
+								out+=(update_string(&my_guitar.strings[j])*32768.0f)/6;
+							}
+							audioState.buff[i+pos]=(s16)(out*volume);
+							audioState.buff[i+pos+1]=audioState.buff[i+pos];
 						}
-						out=Clampf(out/2*volume,-32767,32767);
-						audioState.buff[i+pos]=(s16)(out*volume);
-						audioState.buff[i+pos+1]=audioState.buff[i+pos];
+					}
+					else
+					{
+						SPL_UpdateBuff(&spl_guitar);
+						for(u32 i=0;i<I2S_BUF_SIZE;i+=2)
+						{
+							float out=0;
+							for(u32 j=0;j<6;j++)
+							{
+								if(spl_guitar.strings[j].active>=0)
+								{
+									out+=((float)spl_guitar.strings[j].buff[i/2]);
+								}						
+							}
+							out=Clampf(out/2*volume,-32767,32767);
+							audioState.buff[i+pos]=(s16)(out*volume);
+							audioState.buff[i+pos+1]=audioState.buff[i+pos];
+						}
+					}
+					audioState.data_required=0;
+				}
+				if((KeyStatus[1]&0xFF)==0x0F)
+				{
+					state=STATE_SET;
+					memset(audioState.buff,0,sizeof(audioState.buff));
+					set_LED();
+				}
+			}
+			else if(state==STATE_SET)
+			{				
+				u32 shift=0;
+				// set capo & shift
+				for(u8 str=5;str>=2;str--)
+				{
+					if(touch.stringFert[str]!=0)
+					{
+						shift=(5-str)*6+(6-touch.stringFert[str]);
+						break;
 					}
 				}
-				audioState.data_required=0;
-			}
+				
+				if((touch.stringState[0]&0x3F)==1)
+				{
+					// set capo
+					*capoPos=shift;
+					LEDFlash(3);
+				}
+				else if((touch.stringState[5]&0x3F)==1)
+				{
+					// set shift
+					*fertShift=shift;
+					LEDFlash(3);
+				}
+				else if(((touch.stringState[3]&0x3F)==1)||((touch.stringState[2]&0x3F)==1))
+				{
+					//reset
+					*capoPos=0;
+					*fertShift=0;
+					LEDFlash(3);
+				}
+				
+				if((KeyStatus[1]&0xFF)==0x0F)
+				{
+					state=STATE_PLAY;
+					update_fert();
+					set_LED();
+				}
+				
+			}			
 //			printf("%d\r\n",timecnt[2]);
 		}
 		// Slow work, 1Hz

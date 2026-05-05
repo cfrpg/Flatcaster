@@ -146,3 +146,10 @@ void LEDRestore(void)
 	ledSetOut();
 	LEDUpdate();
 }
+
+void LEDSetRGB(u8 r,u8 g,u8 b)
+{
+	_led_r=r;
+	_led_g=g;
+	_led_b=b;
+}

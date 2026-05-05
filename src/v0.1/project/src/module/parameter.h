@@ -9,7 +9,7 @@
 #define PARAM_TYPE_FLOAT 1
 #define PARAM_TYPE_BINARY -1
 
-#define PARAM_NUM 2
+#define PARAM_NUM 5
 
 #define PARAM_HEAD 0x00CFCF00
 #define PARAM_TAIL 0x00FCFC00

@@ -16,7 +16,7 @@
 #define LED_B_PIN    		GPIO_PINS_13
 #define LED_B_GPIO_PORT    	GPIOC
 
-#define LED_FLASH_T 100
+#define LED_FLASH_T 50
 
 #define LED_1Hz 0x0F83E0
 #define LED_2Hz 0x0E739C
@@ -34,5 +34,6 @@ void LEDSetPattern(u32 r,u32 g,u32 b);
 void LEDUpdate(void);
 void LEDShutdown(void);
 void LEDRestore(void);
+void LEDSetRGB(u8 r,u8 g,u8 b);
 
 #endif
